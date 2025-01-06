@@ -88,11 +88,8 @@ Dockerfile은 일련의 명령어들로 구성되며, 이 명령어들은 Docker
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 FROM ubuntu:20.04
-
 ```
 
 ### 2. `RUN`
@@ -101,14 +98,12 @@ FROM ubuntu:20.04
 - **사용 시점**: 이미지 빌드 과정 중
 - **실행 시점**: 이미지 빌드 시
 - **설명**:
-		- 쉘 명령어를 실행하여 이미지를 빌드합니다.
-		- 예: 패키지 설치, 파일 생성 등.
+	- 쉘 명령어를 실행하여 이미지를 빌드합니다.
+	- 예: 패키지 설치, 파일 생성 등.
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 RUN apt-get update && apt-get install -y nginx
 
 ```
@@ -124,9 +119,7 @@ RUN apt-get update && apt-get install -y nginx
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 COPY ./app /usr/src/app
 ```
 
@@ -142,9 +135,7 @@ COPY ./app /usr/src/app
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 ADD https://example.com/file.tar.gz /tmp/
 ```
 
@@ -157,14 +148,12 @@ ADD https://example.com/file.tar.gz /tmp/
 - **사용 시점**: 컨테이너 실행 시
 - **실행 시점**: 컨테이너 시작 시
 - **설명**:
-		- 컨테이너가 시작될 때 기본으로 실행할 명령어를 지정합니다.
-		- `CMD`는 오버라이드할 수 있습니다 (`docker run` 시 명령어 지정).
+	- 컨테이너가 시작될 때 기본으로 실행할 명령어를 지정합니다.
+	- `CMD`는 오버라이드할 수 있습니다 (`docker run` 시 명령어 지정).
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 CMD ["python", "app.py"]
 ```
 
@@ -180,9 +169,7 @@ CMD ["python", "app.py"]
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 ENTRYPOINT ["nginx", "-g", "daemon off;"]
 ```
 
@@ -197,9 +184,7 @@ ENTRYPOINT ["nginx", "-g", "daemon off;"]
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 ENV APP_ENV=production
 ```
 
@@ -214,9 +199,7 @@ ENV APP_ENV=production
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 EXPOSE 8080
 ```
 
@@ -232,11 +215,8 @@ EXPOSE 8080
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 VOLUME /data
-
 ```
 
 > [!important]  
@@ -255,11 +235,8 @@ VOLUME /data
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 WORKDIR /usr/src/app
-
 ```
 
 ### 11. `USER`
@@ -273,11 +250,8 @@ WORKDIR /usr/src/app
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 USER www-data
-
 ```
 
 ### 12. `ARG`
@@ -292,9 +266,7 @@ USER www-data
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 ARG VERSION=1.0
 RUN echo "Version is $VERSION"
 ```
@@ -310,9 +282,7 @@ RUN echo "Version is $VERSION"
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 LABEL maintainer="youremail@example.com"
 LABEL version="1.0"
 
@@ -329,12 +299,9 @@ LABEL version="1.0"
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
 HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
 	CMD curl -f http://localhost/ || exit 1
-
 ```
 
 ### 15. `ONBUILD`
@@ -348,9 +315,8 @@ HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` dockerfile
+
 ONBUILD COPY . /app/src
 ONBUILD RUN make /app/src
 
@@ -367,9 +333,7 @@ ONBUILD RUN make /app/src
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` Dockerfile
 SHELL ["powershell", "-command"]
 
 ```
@@ -389,21 +353,17 @@ SHELL ["powershell", "-command"]
 ## 추가 정보 및 권장 사항
 
 ### 1. **명령어의 순서**
-
 - Dockerfile의 명령어들은 **명시된 순서대로 실행**됩니다.
 - 명령어 순서는 이미지의 레이어를 형성하며, 캐시 효율성에 영향을 미칩니다.
 - 빈번히 변경되는 파일이나 명령어는 Dockerfile의 하단에 배치하여 빌드 캐시를 최대한 활용할 수 있습니다.
 
 ### 2. **캐시 활용**
-
 - Docker는 이전 빌드의 레이어를 캐싱하여 동일한 명령어가 반복될 때 빌드를 빠르게 수행합니다.
 - 캐시 효율성을 높이기 위해 빈번히 변경되지 않는 명령어와 파일은 상단에 배치합니다.
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` Dockerfile
 # 종속성 설치 (변경되지 않음)
 COPY requirements.txt .
 RUN pip install -r requirements.txt
@@ -414,15 +374,11 @@ COPY . .
 ```
 
 ### 3. **멀티 스테이지 빌드**
-
-- 빌드 도구와 소스 코드를 최종 이미지에 포함시키지 않고, 필요한 실행 파일이나 바이너리만 포함할 수 있습니다.
-- 이미지 크기를 줄이고 보안을 강화할 수 있습니다.
-
+- 멀티 스테이지를 사용하면 최종적으로 빌드된 이미지를 사용합니다.
+- 따라서, 빌드 도구와 소스 코드를 최종 이미지에 포함시키지 않고 필요한 실행 파일이나 바이너리만 포함할 수 있습니다.
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+``` Dockerfile
 # 빌드 스테이지
 FROM golang:1.16 AS builder
 WORKDIR /app
@@ -438,31 +394,24 @@ CMD ["./myapp"]
 ```
 
 ### 4. `CMD` **vs** `ENTRYPOINT`
-
 - `CMD`는 기본 명령어를 지정하며, `docker run` 시 오버라이드할 수 있습니다.
 - `ENTRYPOINT`는 고정된 명령어를 지정하며, `docker run` 시 인자만 추가할 수 있습니다.
 - 함께 사용하여 유연성을 높일 수 있습니다.
 
 **예시**:
 
-```Plain
-dockerfile
-코드 복사
+```dockerfile
 ENTRYPOINT ["python", "app.py"]
 CMD ["--help"]
-
 ```
-
 - 실행 시: `docker run myimage` → `python app.py --help`
 - 실행 시: `docker run myimage --version` → `python app.py --version`
 
 ### 5. **환경 변수와 빌드 아규먼트**
-
 - `ENV`는 런타임에서도 접근 가능한 환경 변수를 설정합니다.
 - `ARG`는 빌드 타임에만 접근 가능한 변수를 설정합니다.
 
 **예시**:
-
 ```Plain
 dockerfile
 코드 복사
@@ -472,44 +421,25 @@ ENV APP_VERSION=$BUILD_VERSION
 ```
 
 ### 6. **보안 고려사항**
-
 - **비밀번호, API 키 등 민감 정보**는 Dockerfile에 직접 작성하지 않습니다.
 - 대신, **빌드 아규먼트**나 **런타임 환경 변수**를 활용합니다.
 - **비밀 관리 도구**(예: Docker Secrets, AWS Secrets Manager)와 연동하여 보안을 강화합니다.
-
 ### 7. **이미지 최적화**
-
 - **경량 베이스 이미지 사용**: `alpine` 등 경량 이미지를 사용하여 이미지 크기를 줄입니다.
 - **불필요한 파일 제거**: 빌드 과정에서 생성된 임시 파일이나 캐시를 제거하여 이미지 크기를 최소화합니다.
-
 **예시**:
-
-```Plain
-dockerfile
-코드 복사
-RUN apt-get update && apt-get install -y \
-		build-essential \
- && rm -rf /var/lib/apt/lists/*
-
+``` dockerfile
+RUN \
+	apt-get update && apt-get install -y build-essential \
+	 && rm -rf /var/lib/apt/lists/*
 ```
-
 ### 8. **컨테이너 실행 시 추가 옵션**
 
 - `docker run` 명령어를 사용할 때 포트 매핑(`p`), 볼륨 마운트(`v`), 환경 변수 설정(`e`) 등 다양한 옵션을 활용할 수 있습니다.
 
 **예시**:
 
-```Shell
-bash
-코드 복사
+``` bash
 docker run -d -p 8080:80 -v /host/data:/container/data -e ENV=production myimage
 
 ```
-
----
-
-## 결론
-
-Dockerfile의 명령어들은 빌드 타임과 런타임에 따라 사용 시점과 실행 시점이 다릅니다. 명령어들의 역할과 특징을 이해하고 적절하게 활용하면 효율적이고 안전한 Docker 이미지를 생성할 수 있습니다. 주요 명령어들을 빌드 타임과 런타임으로 구분하여 활용하고, 멀티 스테이지 빌드, 환경 변수 관리, 이미지 최적화 등을 통해 최적의 이미지를 만들 수 있습니다.
-
-추가적으로 궁금한 사항이나 특정 명령어에 대한 더 자세한 설명이 필요하시다면 언제든지 질문해 주세요!
