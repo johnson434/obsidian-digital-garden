@@ -4,6 +4,8 @@
 
 # Tags
 [[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]] 
+
+---
 # 단서 질문
 - AMI가 뭐야?
     - Amazon Machine Image로 패키지가 이미 세팅(pre-packed)되었으므로 부팅 속도와 설정 속도가 빠릅니다.
@@ -16,6 +18,8 @@
     - 가상 머신이나 컨테이너를 위해 사용되는 이미지를 만드는 자동화 시스템
 - EC2 Image Builder의 동작 방식
     - EC2 인스턴스를 생성 → 정의한 설정에 맞게 인스턴스를 초기화 → 해당 인스턴스로부터 AMI를 생성 → AMI 생성된 후에 인스턴스 종료 → 만들어진 AMI를 사용해서 인스턴스 생성 → 정상적으로 동작하는지 테스트
+
+---
 # 핵심 요약
 - AMI(Amazon Machine Image)는 EC2 인스턴스가 사용할 수 있는 커스터마이징 이미지다.
 - AMI는 리전에 종속된다.
@@ -23,6 +27,8 @@
 - 단, Reboot하지 않으면 파일 시스템 무결성을 보장하지 않는다.
 - 인스턴스 AZ 변경은 AMI를 만들고 해당 이미지로 새로운 AZ에서 인스턴스를 생성하면 된다.
 - EC2 Image Builder는 가상머신이나 컨테이너 이미지를 만들기 위해 사용되는 서비스다.
+
+---
 # 핵심 필기
 
 ## [CCP/SAA/DVA] AMI Overview
