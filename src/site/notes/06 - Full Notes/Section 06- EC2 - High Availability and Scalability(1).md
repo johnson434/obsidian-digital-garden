@@ -46,84 +46,97 @@
 		- 타겟 그룹으로는 IP, EC2 Instances다.
 ---
 # 핵심 필기
-
 ## [SAA/DVA] What is High Availability and Scalability?
 ### Scalability and High Availability Section
-**Scalability**
-- Scalability(확장성)는 앱이나 시스템이 더 많은 부하에도 적응하는 것
-- Vertical Scalability
-- 사이즈를 키우는 것
-- t2.medium → t2.large
-- 분산 시스템이 아닌 경우에 흔히 사용된다. (ex: 데이터베이스)
-- 수직 스케일링의 비용은 스펙에 따라 기하급수적으로 증가하므로 한계가 있다.
-- AWS의 RDS, ElasticCache 서비스는 수직 스케일링이 가능하다.
-- Horizontal Scalability
-- 인스턴스의 개수를 늘린다.
-- 분산 시스템에 적용이 가능하다. (ex: 웹 어플리케이션)
-- 확장성은 가용성이랑 연결되지만 다른 개념이다.
-**Availability**
+### **Scalability**
+앱이나 시스템이 더 많은 부하에도 적응하는 것
+1. **Vertical Scalability**
+	- 사이즈를 키우는 것
+	- t2.medium → t2.large
+	- 분산 시스템이 아닌 경우에 흔히 사용된다. (ex: RDS)
+	- 수직 스케일링의 비용은 스펙에 따라 기하급수적으로 증가하므로 한계가 있다.
+	- AWS의 RDS, ElasticCache 서비스는 수직 스케일링이 가능하다.
+2. **Horizontal Scalability**
+	- 인스턴스의 개수를 늘린다.
+	- 분산 시스템에 적용이 가능하다. (ex: 웹 어플리케이션)
+	- 확장성은 가용성이랑 연결되지만 다른 개념이다.
+### **Availability**
 - 주로 수평적 스케일링과 같이 간다.
 - 높은 가용성은 시스템이 최소한 두 개의 데이터센터에서 동작하는 것을 말한다. (==Availability Zone)
 - 데이터 센터 손실에도 살아남는 게 High Availability의 목표다.
 - The high availability can be passive (for RDS Multi AZ for example)  
 - The high availability can be active (for horizontal scaling)  
+
+---
 ## High Availability & Scalability for EC2
-- 수직 스케일링: 인스턴스 사이즈 키우기
-- 수평 스케일링: 인스턴스 개수 늘리기
-- Auto Scaling Group
-- 로드밸런서
-- High Availability: 여러 AZ에서 똑같은 애플리케이션의 인스턴스 돌리기
-- Auto Scaling Group multi-AZ
-- 로드밸런서 멀티-AZ
+- 수직 스케일링: 인스턴스 사이즈 키우기 (= scale up / down)
+	- From: t2.nano - 0.5G of RAM, 1vCPU
+	- To: u-12tb1.metal - 12.3TB of RAM, 448 vCPUs
+- 수평 스케일링: 인스턴스 개수 늘리기 (= scale out / in)
+	- Auto Scaling Group
+	- 로드밸런서
+- High Availability: 여러 AZ에서 동일한 애플리케이션의 인스턴스 돌리기
+	- Auto Scaling Group multi-AZ
+	- 로드밸런서 multi-AZ
+---
 ## [SAA/DVA] Elastic Load Balancing (ELB) Overview
 ### What is Load Balancing
 ![image 42.png](/img/user/image/image%2042.png)
-- 로드 밸런싱은 서버다. 해당 서버로 들어오는 트래픽들을 여러 서버로 분배한다.
+- 로드밸런싱을 들어오는 트래픽을 여러 개의 서버로 포워딩한다. 
+	- 예: EC2나 클러스터 환경인 경우에 Pod로 포워딩한다.
 ### Why use a load balancer
 - DNS를 하나 사용해서 여러 서버를 구축할 수 있다.
 - 서버에 대한 직접적인 접근을 막을 수 있다.
 - 서비스를 제공하는 서버의 상태가 좋지 않더라도 로드밸런서에서 해당 서버로 요청을 보내지 않아서 외적으로 문제가 없어보인다.(Seamlessly handle failures of downstream instances)
-- 주기적으로 서버들의 상태를 점검한다.
+- 주기적으로 인스턴스들의 헬스체크를 한다.
 - SSL 제거를 지원한다.(Provide SSL termination Https for your websites)
+	- 따라서, 로드 밸런서 뒤에 서비스들은 HTTP로 통신이 가능하다. (SSL offloading)
 - Enforce stickiness with cookies(ALB, CLB는 cookie를 사용해서 로드밸런서로 들어오는 요청을 동일한 인스턴스로 보내준다. NLB는 cookie를 사용하지 않고 이 기능을 제공한다.)
 - 높은 가용성을 제공(High Availability across zones)
 - 프라이빗 트래픽과 퍼블릭 트래픽을 나눈다. (Separate public traffic from private traffic)
+	- Load Balancer를 퍼블릭 엔드 포인트로 설정하고 내부 서비스들은 프라이빗 서브넷으로 설정하여 Load Balancer를 앞뒤로 퍼블릭 트래픽과 프라이빗 트래픽으로 나뉜다.
 ### Why use an Elastic Load Balancer?
 - Elastic Load Balancer는 AWS에서 제공하는 로드밸런서를 총칭한다.
-- ELB는 Managed 서비스로 다음을 보장한다.
-- AWS에선 ELB의 동작을 보장한다.
-- AWS에선 업그레이드, 유지보수, 높은 가용성을 보장한다.
-- AWS에선 ELB 설정 구성만 사용자에게 제공한다.
+	- ELB는 Managed 서비스로 다음을 보장한다.
+	- AWS에선 ELB의 동작을 보장한다.
+	- AWS에선 업그레이드, 유지보수, 높은 가용성을 보장한다.
+		- Load Balancer를 만들 때, 서로 다른 AZ에 서브넷을 선택하는 부분이 있는데 여기서 가용성을 보장하는 것이다.
+	- AWS에선 ELB 설정 구성만 사용자에게 제공한다.
 - 로드밸런서를 직접 구축하는 것보단 비싸지만 직접 구축하는 건 까다롭다.
 - 다음과 같은 다양한 AWS offerings와 서비스들과 통합된다.
-- EC2, EC2 Auto Scaling Groups, Amazon ECS
-- AWS Certificate Manager (ACM), CloudWatch
-- Route 53, AWS WAF, AWS Global Accelerator
+	- EC2: EC2 인스턴스에 트래픽 분배가 가능하다.
+	- EC2 Auto Scaling Groups: 오토스케일링을 타겟 그룹으로 설정하여 스케일 아웃/인 시에도 적절히 트래픽을 분배한다.
+	- Amazon ECS
+	- AWS Certificate Manager (ACM): 인증서를 추가할 수 있다.
+	- CloudWatch
+	- Route 53: Route53에 DNS 레코드로 추가하여 로드 밸런서에 호스트 네임으로 접근 가능하게 만들 수 있다.
+	- AWS WAF: 방화벽을 적용할 수 있다.
+	- AWS Global Accelerator
 ### Health Checks
 - 로드밸런서에선 주기적으로 서버들의 상태를 체크한다.
 - 헬스 체크는 포트와 라우트에서 이뤄진다. (기본 라우트 설정은 `/health`다.)
-- 만약, 헬스 체크가 리턴하는 상태 코드가 200이 아니면 해당 인스턴스는 건강하지 않다는 말이다. (단, 설정으로 Healthy 기준이 되는 상태 코드를 변경할 수 있다. ex: 202를 Healthy 기준으로 잡는다.)
-
+- 만약, 헬스 체크가 리턴하는 상태 코드가 200이 아니면 해당 인스턴스는 건강하지 않다는 말이다. (단, 설정으로 Healthy 기준이 되는 상태 코드를 변경할 수 있다. 예를 들어, 202를 Healthy 기준으로 잡으면 202를 리턴해야 건강하다고 판단한다.)
 ![image 1 15.png](/img/user/image/image%201%2015.png)
-	
 ### Types of load balancer on AWS
 - AWS는 4가지 로드밸런서가 존재한다.
 - CLB (v1 - old generation) - 2009
+	- HTTP, HTTPS, TCP, SSL
 - ALB (v2 - new generation) - 2016
-- HTTP, HTTPS< WebSocket
+	- HTTP, HTTPS, WebSocket
 - NLB (v2 - new generation) - 2017
-- 4계층을 이용하는 로드밸런서 - TCP, TLS, UDP
+	- 4계층을 이용하는 로드밸런서 - TCP, TLS, UDP
 - GLB - 2020 - GWLB
-- 3계층을 이용하는 로드밸런서 - IP Protocol
+	- 3계층을 이용하는 로드밸런서 - IP Protocol
 - 몇몇 로드밸런서는 내부(internal, private)나 외부(external, public) 로드밸런서로 사용할 수 있다.
 
 ![image 2 13.png](/img/user/image/image%202%2013.png)
-	
 ### Classic Load Balancers (v1)
 - 4계층 7계층 모두 지원
 - 헬스 체크는 TCP, HTTP 프로토콜을 사용
 - 고정된 호스트 네임 사용
 - XXX.region.elb.amazonaws.com
+
+---
 ## [SAA/DVA] Application Load Balancer (ALB)
 ### Application Load Balancer (v2)
 - 7계층 로드밸런서다. (HTTP)
