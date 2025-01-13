@@ -10,10 +10,14 @@
 - AMI가 뭐야?
     - Amazon Machine Image로 패키지가 이미 세팅(pre-packed)되었으므로 부팅 속도와 설정 속도가 빠릅니다.
 - 인스턴스를 다른 AZ로 옮기는 방법
-	- 인스턴스로부터 AMI를 새로 만들고 인스턴스를 중단한 후에 이전한 AZ에 AMI를 사용하여 인스턴스를 생성한다.
+	1. EC2의 AMI 생성
+	2. EC2 중단
+	3. 이전할 AZ에서 AMI를 사용하여 EC2 생성
 - AMI를 백업하는 방법
     1. AWS Backup을 사용
     2. EventBridge를 통해서 AWS Lambda를 트리거 → AWS Lambda가 AMI 이미지 백업 호출 → 백업 시작
+- AWS Backup을 통해 AMI이미지 생성 단점
+	- EC2 인스턴스를 중단하지 않고 이미지를 만드므로 데이터 무결성을 보장하지 않는다.
 - EC2 Image Builder란?
     - 가상 머신이나 컨테이너를 위해 사용되는 이미지를 만드는 자동화 시스템
 - EC2 Image Builder의 동작 방식
@@ -27,7 +31,6 @@
 - 단, Reboot하지 않으면 파일 시스템 무결성을 보장하지 않는다.
 - 인스턴스 AZ 변경은 AMI를 만들고 해당 이미지로 새로운 AZ에서 인스턴스를 생성하면 된다.
 - EC2 Image Builder는 가상머신이나 컨테이너 이미지를 만들기 위해 사용되는 서비스다.
-
 ---
 # 핵심 필기
 
