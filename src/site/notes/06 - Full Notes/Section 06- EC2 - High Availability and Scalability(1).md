@@ -181,7 +181,7 @@
 - NLB는 TCP 또는 UDP 트래픽에 엄청난 퍼포먼스를 원할 때 사용할 수 있다.
 - Free Tier에서 지원 안 한다.
 ### Network Load Balancer (v2) TCP (Layer 4) Based Traffic
-![Pasted image 20250114180557.png](/img/user/Pasted%20image%2020250114180557.png)
+![Pasted image 20250114180557.png](/img/user/image/Pasted%20image%2020250114180557.png)
 ### Network Load Balancer - Target Groups
 - EC2 Instances
 - IP Addresses

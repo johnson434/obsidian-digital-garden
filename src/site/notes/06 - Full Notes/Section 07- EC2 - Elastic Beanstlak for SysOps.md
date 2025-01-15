@@ -24,7 +24,7 @@
 # 핵심 필기
 ## [SAA/DVA] Beanstalk Overview
 ### Typical architecture: Web App 3-tier
-![Pasted image 20250115152509.png](/img/user/Pasted%20image%2020250115152509.png)
+![Pasted image 20250115152509.png](/img/user/image/Pasted%20image%2020250115152509.png)
 	
 ## Developer problems on AWS
 개발자 입장에서 AWS 사용 시 문제점
@@ -48,15 +48,15 @@
 	- Application version을 실행하는 AWS 리소스 집합 (동시에 단 하나의 application version만 가능하다)
 	- 티어: Web Server Tier, Worker Tier
 	- 여러 환경을 만들 수 있다. (dev, test, prod 등)
-![Pasted image 20250115153329.png](/img/user/Pasted%20image%2020250115153329.png)
+![Pasted image 20250115153329.png](/img/user/image/Pasted%20image%2020250115153329.png)
 ### Elastic Beanstalk - Supported Platforms
 - Go, Java, Ruby, Node.js, PHP, Python, 컨테이너 ...
 ### Web Server Tier vs Worker Tier
-![Pasted image 20250115153547.png](/img/user/Pasted%20image%2020250115153547.png)
-![Pasted image 20250115153620.png](/img/user/Pasted%20image%2020250115153620.png)
+![Pasted image 20250115153547.png](/img/user/image/Pasted%20image%2020250115153547.png)
+![Pasted image 20250115153620.png](/img/user/image/Pasted%20image%2020250115153620.png)
 - Worker Environment로 Elastic Beanstalk를 생성하면 SQS Queue가 같이 만들어지고 해당 큐로 메시지가 전송되어 트래픽을 처리합니다.
 ### Elastic Beanstalk Deployment Modes
-![Pasted image 20250115153648.png](/img/user/Pasted%20image%2020250115153648.png)
+![Pasted image 20250115153648.png](/img/user/image/Pasted%20image%2020250115153648.png)
 
 ---
 # 참고 자료

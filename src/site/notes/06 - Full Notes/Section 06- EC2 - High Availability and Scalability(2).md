@@ -82,7 +82,7 @@
 - Any custom metric (CloudWatch에 Push한 커스텀 메트릭)
 	
 ### Auto Scaling Groups - Scaling Cooldowns
-![Pasted image 20250115134312.png](/img/user/Pasted%20image%2020250115134312.png)
+![Pasted image 20250115134312.png](/img/user/image/Pasted%20image%2020250115134312.png)
 - 스케일링 액션이 일어나면 쿨다운 상태에 들어간다.(default 설정은 5분)
 - 쿨다운 상태에선 인스턴스에 추가/삭제가 일어나지 않는다. (메트릭 안정화를 위해서)
 - Advice: AMI를 사용하면 환경이 셋업 되어 있기 때문에 cooldown 기간을 줄일 수 있다. -> 아무래도 직접 패키지를 설치하는 것보단 설치되어 있는 AMI를 사용하는 게 빠를 수밖에 없다.
@@ -100,7 +100,7 @@
 	- 로그 추출
 	- 특별한 헬스 체크
 - EventBridge, SNS, SQS와 통합해서 사용 가능합니다.
-![Pasted image 20250115134721.png](/img/user/Pasted%20image%2020250115134721.png)
+![Pasted image 20250115134721.png](/img/user/image/Pasted%20image%2020250115134721.png)
 ### Launch Configuration vs Launch Template
 
 ![image 10 5.png](/img/user/image/image%2010%205.png)
@@ -154,7 +154,7 @@
 
 ---
 ## Auto Scaling Overview
-![image.AJTA02.png](/img/user/image.AJTA02.png)
+![aws autoscaling icon.png](/img/user/image/aws%20autoscaling%20icon.png)
 - AWS 확장 가능한 리소스들을 위한 중요 서비스
 
 지원하는 서비스들은 다음과 같습니다.
