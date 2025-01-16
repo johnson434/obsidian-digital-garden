@@ -7,7 +7,6 @@
 
 ---
 # 단서 질문
-
 - CloudFormation이 뭐야?
     CloudFormation은 선언형 프로그래밍을 통해서 인프라를 정의하는 IaC입니다.
 - CloudFormation 사용하기 위해선 template을 어떡하나?
@@ -263,7 +262,7 @@ SecurityGroups:
 ---
 ## [DVA] CloudFormation - Intrinsic Functions
 ### CloudFormation - Intrinsic Functions
-![Pasted image 20250116175431.png](/img/user/Pasted%20image%2020250116175431.png)
+![Pasted image 20250116175431.png](/img/user/image/Pasted%20image%2020250116175431.png)
 ### Fn::Ref
 
 - Parameters에 사용하면 Parameter 값을 가져온다.
@@ -474,7 +473,7 @@ MyEC2:
 > ARN이란? Amazon Resource Name으로 아마존 리소스의 고유한 식별자  
 ### How to define a Custom Resource?
 - ServiceToken은 CloudFormation이 보낼 요청 장소(Lambda ARN이거나 SNS ARN)를 명시한다. (Region은 무조건 동일해야 한다.)
-- ![Pasted image 20250116203026.png](/img/user/Pasted%20image%2020250116203026.png)
+- ![Pasted image 20250116203026.png](/img/user/image/Pasted%20image%2020250116203026.png)
 
 ---
 ## [DVA] CloudFormation - Dynamic References
