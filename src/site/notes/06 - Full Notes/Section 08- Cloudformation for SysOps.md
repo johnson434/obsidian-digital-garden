@@ -38,9 +38,6 @@
     리소스에 대해 조치를 취한 후에 CloudFormation에서 ContinueUpdateRollback API를 호출한다.
 - CloudFormation에서 Outputs이란?
     다른 스택에서 만들어진 값을 사용하고 싶을 때, 해당 스택에서 값을 Export하고 Output을 통해 사용할 수 있다.
-    ```JavaScript
-    !ImportValue (사용할값)
-    ```
 - CloudFormation Capabilities
     CloudFormation에서 특정 리소스(IAM)를 생성하거나 Macro를 통해 동적으로 리소스를 구축하기 위해선 Capabilities를 부여합니다.
     **InsufficientCapabilitiesException**은 Capability가 없는 상태에서 템플릿에서 해당 권한이 필요한 리소스를 생성하면 발생하는 예외입니다.
@@ -53,16 +50,19 @@
     cfn-signal: cfn-init 결과를 CloudFormation에 전송하는 것
 ---
 # 핵심 요약
-• CloudFormation은 AWS 리소스를 코드로 관리하는 IaC(Infrastructure as Code) 서비스이다.
-• 템플릿을 통해 리소스를 선언적으로 정의하고, 스택으로 리소스 그룹을 관리한다.
-• cfn-init, cfn-signal, WaitCondition 등을 통해 인스턴스 초기 설정과 상태 확인이 가능하다.
-• 중첩 스택(Nested Stacks)을 사용해 공통 컴포넌트를 재사용할 수 있다.
-• Cross Stacks를 통해 스택 간 값을 공유하고, 다른 라이프사이클을 가진 스택을 관리할 수 있다.
-• StackSets를 사용하여 여러 계정과 리전에 걸쳐 스택을 배포하고 관리할 수 있다.
-• 트러블슈팅 시 로그 확인, 권한 검증, 리소스 제한 확인 등이 중요하다.
-• CloudFormation의 DependsOn 속성을 사용하여 리소스 간의 종속성을 명시적으로 정의할 수 있다.
-• CloudFormation Designer를 활용하면 시각적으로 템플릿을 생성하고 수정할 수 있어 복잡한 아키텍처 설계가 용이하다.
-• 변경 세트(Change Sets)를 통해 스택 업데이트 전 변경 사항을 미리 검토하고 영향을 평가할 수 있다.
+- CloudFormation은 IaC로 코드를 통해 리소스를 생성 및 관리할 수 있다.
+- IaC의 장점은 깃허브와 같은 소스 코드 저장소에서 버전 관리가 가능하다.
+- 코드리뷰로 리소스를 관리할 수 있다.
+- CloudFormation엔 대부분의 리소스를 사용 가능하다.
+- cfn-init, cfn-signal Python으로 작성된 CloudFormation 관리 스크립트다.
+- cfn-init을 통해 초기화하고 cfn-signal을 통해서 신호를 CloudFormation에 날릴 수 있다.
+- WaitCondition을 명시해서 cfn-signal 횟수를 설정하여 해당 이상 만큼 signal이 오면 프로비저닝을 성공했다고 판단한다.
+- Nested Stack은 스택 내부에 스택을 명시하는 형태. 모듈환 느낌이다.
+- Cross Stacks은 스택에서 Outputs Export를 통해서 다른 스택에서 해당 스택의 Outputs를 사용할 수 있다. (예: VPC 스택의 VPC ID를 다른 스택에 넘기기)
+- StackSets는 여러 계정에서 Stack을 만드는 기능
+- Organization을 통해 설정하거나 계정을 명시해서 사용 가능하다.
+- Organization을 통해 설정하면 해당 조직의 멤버가 추가되거나 삭제되어도 반영된다.(동적이네)
+- 변경 세트(Change Sets)를 통해 스택 업데이트 전 변경 사항을 미리 검토하고 영향을 평가할 수 있다.
 
 ---
 # 핵심 필기
@@ -180,7 +180,6 @@ Parameters:
 ![image 17 5.png](/img/user/image/image%2017%205.png)
 ### CloudFormation - Pseudo Parameters
 - AWS에서 제공하는 파라미터로 모든 템플릿에서 사용 가능하다.
-
 - 종류
 	- AWS::AccountId
 	- AWS:Region
@@ -189,252 +188,233 @@ Parameters:
 	- AWS::NotificationARNs
 	- AWS: NoValue
 ## [DVA] CloudFormation - Mappings
-
-![[image 19 5.png\|image 19 5.png]]
-
-- Mappings는 CloudFormation과 같이 작성되어 있음. (Parameters와 같이 입력 값을 받는 게 아니다)
+### CloudFormation - Mappings
+- Mappings는 CloudFormation 템플릿과 고정된 변수들이다.
 - 서로 다른 환경에서 편리하다.
 - 모든 값은 Template에 하드코딩되어 있음
+``` yaml
+Mappings:
+	Mapping01:
+		Key01:
+			Name: Value01
+```
+### Accessing Mapping Values (Fn::FindInMap)
+- `Fn::FindInMap`은 Key를 통해 값을 사용할 수 있다.
+- !FindInMap [MapName, TopLevelKey, SecondLevelKey]
+``` yaml
+Mappings:
+	Mapping01:
+		Key01:
+			Name: Value01
+Resources:
+	MyEC2Instance:
+		Type: AWS::EC2::Instance
+		Properties:
+			ImageId: !FindInMap [Mapping01, Key01, Name]
+```
+### When would you use Mappings vs Parameters
+- Mappings는 사전에 추론 가능한 변수들에 사용하면 좋다.
+	- Region
+	- AZ
+	- AWS Account
+	- Environment
+	- etc...
+- template 내부에 명시되어 있으므로 안전하다.
 
-![[image 20 5.png\|image 20 5.png]]
+- Parameters는 특정 유저에 엄청 특화된 값을 쓸 때 사용해라
 
-
-
-![[image 21 5.png\|image 21 5.png]]
-
-
-
-- [DVA] CloudFormation - Outputs & Exports
-
-![[image 22 4.png\|image 22 4.png]]
-
+---
+## [DVA] CloudFormation - Outputs & Exports
+### CloudFormation - Outputs(1)
 - Output은 선택적 출력 값들을 선언한다. 이를 다른 Stack에서 사용할 수 있다.
 - Outputs를 AWS Console이나 AWS CLI를 통해 사용 가능합니다.
 - 네트워크를 CloudFormation으로 정의하고 Output을 통해 VPC IP나 Subnet ID를 사용할 수 있다.
 - 스택끼리 협동하기 위해 가장 좋은 방법입니다.
+- 테라폼에도 위와 같이 출력 값을 `Outputs`로 관리한다.
+``` hcl
+output "igw_id" {
+  value = aws_internet_gateway.igw.id
+}
+```
+### CloudFormation - Outputs Cross-Stack Reference
+- `Fn:ImportValue` 함수로 다른 스택에서 참조 가능하다.
+``` yaml
+SecurityGroups:
+	- !ImportValue OUTPUTS_NAME
+```
 
-![[image 23 4.png\|image 23 4.png]]
-
-
-
-![[image 24 4.png\|image 24 4.png]]
-
-
-
-- [DVA] CloudFormation - Conditions
-- CloudFormation - Conditions
-
-![[image 25 4.png\|image 25 4.png]]
-
-- 조건에 따라서 리소스 생성이나 Outputs를 조절한다.
+---
+## [DVA] CloudFormation - Conditions
+### CloudFormation - Conditions
+- 조건에 따라서 **리소스 생성**이나 **Outputs**를 **조절**한다.
 - 어떤 것도 조건이 될 수 있지만 다음 3가지가 일반적인 사용 방법이다.
-- 환경 (dev / test / prod)
-- AWS Region
-- Parameter Value
+	1. 환경 (dev / test / prod)
+	2. AWS Region
+	3. Parameter Value
 - Condition은 다른 Condition이나 parameter value, mapping을 참조할 수 있다.
-- How to define a Condition
-
-![[image 26 4.png\|image 26 4.png]]
-
-
-
-- How to use a Condition
-
-![[image 27 4.png\|image 27 4.png]]
-
-- Condition은 resource / outputs 기타 등등 다양한 곳에 적용 가능하다.
-- [DVA] CloudFormation - Intrinsic Functions
-- CloudFormation - Intrinsic Functions
-
-![[image 28 2.png\|image 28 2.png]]
-
-
-
-- Intrinsic Functions
-- Fn::Ref
-
-![[image 29 2.png\|image 29 2.png]]
-
-Fn::Ref
+### How to define a Condition
+- Condition의 논리적 ID는 직접 설정이 가능하다.
+- Intrinsic 함수는 다음과 같다.
+	- Fn::And
+	- Fn::Equals
+	- Fn::If
+	- Fn::Not
+	- Fn::Or
+---
+## [DVA] CloudFormation - Intrinsic Functions
+### CloudFormation - Intrinsic Functions
+![Pasted image 20250116175431.png](/img/user/Pasted%20image%2020250116175431.png)
+### Fn::Ref
 
 - Parameters에 사용하면 Parameter 값을 가져온다.
 - Resources에 사용하면 Resource ID를 가져온다.
 - Fn:GetAtt
 
-![[image 30 2.png\|image 30 2.png]]
-
-Fn:GetAtt
-
+### Fn:GetAtt
 - Attribute는 모든 리소스와 결합되어 있다.
 - Attribute를 확인하려면 AWS 공식 문서를 봐라
 - !GetAtt EC2Instance.AvailabilityZone은 EC2 인스턴스의 AZ를 가져온다.
 - FindInMap
-
-![[image 31 2.png\|image 31 2.png]]
-
-Fn::FindInMap
-
+### Fn::FindInMap
 - Mappings에서 Key 값을 통해서 값을 조회 가능
 - Fn::ImportValue
-
-![[image 32 2.png\|image 32 2.png]]
-
-**Fn::ImportValue**
-
+### Fn::ImportValue
 - 다른 스택에서 Export 된 값을 Import 할 수 있다.
-- Fn::Base64
-
-![[image 33 2.png\|image 33 2.png]]
-
-**Fn::Base64**
-
+### Fn::Base64
 - String을 Base64로 변경한다.
 - Fn::Condition Functions
+---
 
-![[image 34 2.png\|image 34 2.png]]
-
-	
-
-- [DVA] CloudFormation - Rollbacks
-
-![[image 35 2.png\|image 35 2.png]]
-
-**Rollbacks**
-
+## [DVA] CloudFormation - Rollbacks
+### CloudFormation - Rollbacks
 - Stack 생성 실패 시:
-- 기본 설정: 모든 게 롤백 된다.
-- 롤백 설정을 꺼서 트러블 슈팅을 할 수 있다.
+	- 기본 설정: 모든 게 롤백 된다.
+	- 롤백 설정을 꺼서 트러블 슈팅을 할 수 있다.
 - Stack 업데이트 실패 시:
-- 이전 상태로 돌아간다.
-- 로그로 에러 확인 가능
+	- 동작하는 이전 버전으로 롤백한다.
+	- 로그로 에러 확인 가능
 - 롤백 실패 시 대처 방법은?
-- ContinueUpdateRollback API를 호출
-- [DVA] CloudFormation - Service Role
-
-![[image 36 2.png\|image 36 2.png]]
-
-**Service Role**
-
-- CloudFormation이 User 액션에 따라 스택 생성/업데이트/삭제를 할 수 있게 허용한다.
-- CloudFormation으로 만드려는 해당 리소스 권한을 추가한다.
-
-```JavaScript
-// CloudFormation의 자격증명기반정책
+	- 리소스를 메뉴얼대로 고치고 콘솔에서 ContinueUpdateRollback API를 호출
+	- 리소스를 메뉴얼대로 고치고 콘솔에서 AWS CLI로 continue-update-rollback api 호출
+## [DVA] CloudFormation - Service Role
+### Service Role
+- IAM role(역할)을 통해서 스택 생성/업데이트/삭제를 할 수 있다.
+- User가 CloudFormation의 템플릿을 통해서 만드려는 리소스에 대한 권한이 없더라도 CloudFormation이 role을 통해서 작업을 진행한다.
+``` json
+// role: arn:aws:iam::11111:role/rolename
 {
-"Version": "2012-10-17",
-"Statement": [
-{
-"Effect": "Allow",
-"Action": [
-"s3:*Bucket"
-],
-"Resource": "*"
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": [
+				"s3:*Bucket"
+			],
+			"Resource": "*"
+		}
+	]
 }
-]
+
+// 아래 정책을 만들고, User에게 부여하면 된다.
+{
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": "iam:PassRole",
+			"Resource": [
+				"arn:aws:iam::11111:role/rolename"
+			]
+		}
+	]
 }
 ```
-
 - 언제쓰냐?
-- 최소한의 권한을 주고 싶을 때
+	- 최소한의 권한을 주고 싶을 때
+> [!IAM PassRole이란]
+> IAM PassRole은 특정 리소스(예: EC2)에 IAM 역할을 부여할 수 있도록 권한을 위임하는 데 필요하다.  
+CloudFormation 예시를 보면, 템플릿을 통해 EC2를 생성하려면 EC2에 IAM 역할을 연결해야 한다.  
+이를 위해 CloudFormation은 해당 역할을 EC2에 연결할 수 있는 권한이 필요하며, 이를 위해 CloudFormation을 실행하는 사용자 또는 서비스 역할에 **IAM PassRole** 권한이 있어야 한다.  
+따라서, IAM PassRole은 CloudFormation이 EC2 생성 작업 중 EC2에 역할을 연결할 수 있도록 허용하는 역할을 한다.
 
 **Service Role 내가 이해한 내용**
-
 - Stack을 만드는 유저는 iam:PassRole이랑 CloudFormation의 권한이 있어야한다.
 - CloudFormation은 자격증명기반정책으로 CloudFormation 템플릿을 통해 만들 리소스에 대한 권한이 있어야 한다.
+- 순서는 아래와 같다.
+	1. CloudFormation이 사용할 역할을 만든다. 
+	2. 해당 역할을 CloudFormation에게 전할 수 있도록 PassRole 정책을 만든다. 이 정책은 Action이 PassRole이며 리소스는 1번에서 역할의 arn이다.
+	3. 2번에서 만든 정책을 역할에 묶는다. 
+	4. 3번에서 만든 역할을 User에게 부여한다.
+	5. 해당 User는 이제 CloudFormation에 역할을 부여할 수 있는 권한을 가졌다. 1번에서 만든 역할을 CloudFormation에게 부여한다.
 
-- 자격증명기반 vs 리소스 기반
-
+---
+## 자격증명기반 vs 리소스 기반
 ### 1. **자격 기반 정책 (Identity-Based Policy)**
-
 - **적용 대상**: IAM 사용자(User), IAM 그룹(Group), 또는 IAM 역할(Role).
 - **사용 방법**: 특정 유저, 그룹, 역할에게 어떤 리소스에 접근할 수 있는지, 그리고 어떤 작업(예: EC2 인스턴스 시작, S3 버킷 읽기 등)을 수행할 수 있는지를 정의합니다.
 - **예시 상황**: "이 IAM 역할이 모든 S3 버킷에 접근할 수 있도록 설정"하는 경우 자격 기반 정책을 사용합니다.
-
 **예시: IAM 역할에 적용된 자격 기반 정책**
-
-```JSON
-json
-코드 복사
+``` json
 {
-"Version": "2012-10-17",
-"Statement": [
-{
-	"Effect": "Allow",
-	"Action": "s3:ListBucket",
-	"Resource": "arn:aws:s3:::*"
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Action": "s3:ListBucket",
+			"Resource": "arn:aws:s3:::*"
+		}
+	]
 }
-]
-}
-
 ```
-
 위 정책은 **IAM 역할**이 모든 S3 버킷을 나열할 수 있는 권한을 부여합니다. 여기서 중요한 점은 정책이 **IAM 역할**에 부착된다는 것입니다.
 
 ### 2. **리소스 기반 정책 (Resource-Based Policy)**
-
 - **적용 대상**: AWS 리소스 자체에 부착됩니다. S3 버킷, SQS 큐, SNS 주제, KMS 키 등이 리소스 기반 정책을 사용할 수 있습니다.
 - **사용 방법**: 특정 리소스에 대해 어떤 엔터티(IAM 사용자, 역할, 또는 AWS 서비스)가 해당 리소스에 접근할 수 있는지를 정의합니다.
 - **예시 상황**: "이 S3 버킷에 특정 IAM 역할만 접근할 수 있도록 설정"하는 경우 리소스 기반 정책을 사용합니다.
 
 **예시: S3 버킷에 적용된 리소스 기반 정책**
-
-```JSON
-json
-코드 복사
+``` json
 {
-"Version": "2012-10-17",
-"Statement": [
-{
-	"Effect": "Allow",
-	"Principal": {
-		"AWS": "arn:aws:iam::123456789012:role/SomeIAMRole"
-	},
-	"Action": "s3:GetObject",
-	"Resource": "arn:aws:s3:::example-bucket/*"
+	"Version": "2012-10-17",
+	"Statement": [
+		{
+			"Effect": "Allow",
+			"Principal": {
+				"AWS": "arn:aws:iam::123456789012:role/SomeIAMRole"
+			},
+			"Action": "s3:GetObject",
+			"Resource": "arn:aws:s3:::example-bucket/*"
+		}
+	]
 }
-]
-}
-
 ```
-
 위 정책은 **S3 버킷**에 부착된 리소스 기반 정책으로, 특정 IAM 역할(`SomeIAMRole`)만 해당 S3 버킷의 객체를 읽을 수 있는 권한을 부여합니다. 여기서 정책이 S3 버킷 리소스에 부착된다는 점이 핵심입니다.
-
 ### 3. **차이점 요약**
-
 - **자격 기반 정책**: IAM 엔터티(사용자, 그룹, 역할)에게 권한을 부여합니다. 예를 들어, "이 IAM 역할은 S3 버킷에 접근할 수 있다"와 같은 형태로, 정책은 **유저나 역할에 적용**됩니다.
 - **리소스 기반 정책**: 리소스(S3 버킷, SNS 주제, SQS 큐 등) 자체에 부착됩니다. 리소스가 어떤 엔터티에게 접근 권한을 부여하는지를 정의합니다. 예를 들어, "이 S3 버킷은 특정 IAM 역할이 접근할 수 있다"와 같은 형태로, 정책은 **개별 리소스에 적용**됩니다.
 
 ### 4. **적용 예시**
 
-### 자격 기반 정책
-
+#### 자격 기반 정책
 - 특정 IAM 역할에게 EC2 인스턴스를 시작하고 종료할 수 있는 권한을 부여하려면, **자격 기반 정책**을 해당 IAM 역할에 부착합니다.
-
-### 리소스 기반 정책
-
+#### 리소스 기반 정책
 - 특정 IAM 역할이 **S3 버킷**에만 접근할 수 있도록 하려면, S3 버킷에 **리소스 기반 정책**을 부착하여 해당 IAM 역할만 접근할 수 있도록 제한합니다.
+> [!Principal이란?]
+> 리소스 기반 정책 유형은 역할 신뢰 정책이다. Principal은 해당 정책을 통해 접근할 수 있는 주체를 명시한다.
 
-### 정리
-
-- **자격 기반 정책**은 **IAM 사용자, 그룹, 역할**에 적용되는 정책입니다.
-- **리소스 기반 정책**은 **AWS 리소스 자체(S3, SNS, SQS 등)**에 적용되며, 특정 엔터티가 해당 리소스에 어떻게 접근할 수 있는지를 제어합니다.
-
-이 두 정책을 적절하게 사용하면, 권한 관리에서 보다 정교한 통제가 가능합니다.
-
-- [DVA] CloudFormation - Capabilities
-
-![[image 37 2.png\|image 37 2.png]]
-
-**Capabilities (능력들)**
-
+---
+## [DVA] CloudFormation - Capabilities
+### CloudFormation - Capabilities
+- 템플릿을 통해 리소스를 만들 때, 해당 템플릿이 특정 액션을 취할 수 있다고 명시할 필요가 있다.
+- 이런 액션들을 할 수 있다는 걸 Capability를 통해 명시할 수 있다.
 - **CAPABILITY_NAMED_IAM, CAPABILITY_IAM**
-- CloudFormation이 IAM 리소스를 만들거나 업데이트할 때 필요하다. (IAM 유저, 역할, 정책 등)
-- 리소스의 이름을 지을 거면 CAPABILITY_NAMED_IAM을 써라
+	- CloudFormation 템플릿이 IAM 리소스(IAM 사용자, 역할, 그룹, 정책, 액세스 키, 인스턴스 프로필 등)를 생성하거나 업데이트할 때 활성화해야 함
+	- 리소스의 이름을 지을 거면 CAPABILITY_NAMED_IAM을 써라
 - **CAPABILITY_AUTO_EXPAND**
-- CloudFormation이 Macros나 Nested Stack가 있으면 사용해야 한다.
+	- 템플릿에 Macros나 Nested Stack을 통환 동적 변환을 하기 위해서 필요하다.
 - **InsufficientCapabilitiesException**
-- 만약, Capabilities가 없으면 해당 에러가 난다.
-
+	- 템플릿을 통해 리소스를 생성하려는 데 필요한 Capability가 없으면 발생하는 에러다.
 ```Bash
 # 예시
 aws cloudformation \
@@ -445,239 +425,170 @@ create-stack \
 --capabilities CAPABILITY_NAMED_IAM
 ```
 
-- [DVA] CloudFormation - Deletion Policy
+## [DVA] CloudFormation - Deletion Policy
 
-Deletion Policy란?
+### Deletion Policy란?
+- CloudFormation Template이 삭제되었거나 혹은 리소스가 CloudFormation 템플릿에서 제거되었을 때 취할 액션을 정책을 통해 설정할 수 있다.
+- 리소스를 보존하거나 백업하기 위한 추가 안전 조치다.
 
-- CloudFormation Template이 삭제되었거나 리소스가 CloudFormation Template에서 삭제되었을 때 조절하는 정책
-- Extra Safety Measure(추가적인 보안 조치)로 리소스를 보존하고 백업한다.
-
-- DeletionPolicy Delete
-
-![[image 38 2.png\|image 38 2.png]]
-
+### DeletionPolicy Delete
 - 기본 삭제 정책은 Delete다.
-
-
-
-- DeletionPolicy Retain
-
-![[image 39 2.png\|image 39 2.png]]
-
-- 유지하는 정책
-- DeletionPolicy Snapshot
-
-![[image 40 2.png\|image 40 2.png]]
-
+	- 단, S3 버킷의 경우 내용물이 비지 않았으면 삭제가 불가능하다.
+``` yaml
+MyEC2:
+	Type: AWS::EC2::Instance
+	Properties:
+		ImageId: 1245125
+	DeletionPolicy: Delete
+```
+### DeletionPolicy Retain
+- CloudFormation 삭제에도 유지하고 싶은 리소스에 명시하는 정책이다.
+- 모든 리소스에서 동작한다.
+### DeletionPolicy Snapshot
 - 삭제하기 전에 스냅샷을 찍는다.
 - 가능한 리소스:
-- EBS Volume
-- ElaticCache Cluster, ElasticCache ReplicationGroup
-- RDS DB Instance
-		- RDS DB Cluster
-		- Redshift Cluster
-		- Neptune DBCluster
-		- DocumentDB DBCluster
-- [DVA] CloudFormation - Stack Policy
-
-![[image 41 2.png\|image 41 2.png]]
-
-- 업데이트가 일어나도 되는 리소스를 정의한다.
+	- EBS Volume
+	- ElaticCache Cluster, ElasticCache ReplicationGroup
+	- RDS DB Instance
+	- RDS DB Cluster
+	- Redshift Cluster
+	- Neptune DBCluster
+	- DocumentDB DBCluster
+---
+## [DVA] CloudFormation - Stack Policies
+### CloudFormation - Stack Policies
+- CloudFormation의 Stack이 업데이트 되는 동안엔 모든 리소스가 업데이트 될 수 있다.(Default 설정은 모든 리소스가 업데이트 가능)
+- Stack Policy는 JSON 문서로 업데이트가 일어나도 되는 리소스를 정의한다.
 - Stack Policy를 작성하면 디폴트 값으로 모든 리소스가 보호된다.
-- Stack Policy를 작성하면 업데이트를 원하는 리소스엔 무조건 Allow를 추가하라.
-- [DVA] CloudFormation - Termination Protection
-
-![[image 42 2.png\|image 42 2.png]]
-
-Termanation Protection을 통해 Stack 삭제를 방지할 수 있다.
-
-- [DVA] CloudFormation - Custom Resources
-
-![[image 43 2.png\|image 43 2.png]]
-
-- CloudFormation에서 아직 지원하지 않는 리소스를 사용하기 위해서 정의하는 것
-
-![[image 44 2.png\|image 44 2.png]]
-
-
-
+- Stack Policy를 작성하면 업데이트를 원하는 리소스엔 무조건 Allow를 추가하라. -> 명시하지 않으면 업데이트가 일어나지 않는다.
+---
+## [DVA] CloudFormation - Termination Protection
+- Termanation Protection을 통해 Stack 삭제를 방지할 수 있다.
+## [DVA] CloudFormation - Custom Resources
+- 사용되는 곳
+	- CloudFormation에서 아직 지원하지 않는 리소스를 사용하기 위해서 정의하는 것 (앞에서 말한 내용으로 아직 지원하지 않는 리소스를 사용하기 위해 Custom Resource를 쓸 수 있다.)
+	- Lambda를 통해 구현되며 Stack이 create / update / delete하는 동안에 커스텀 스크립트를 실행할 수 있다. (예: S3의 경우, Deletion Policy가 Delete더라도 내부가 비어있지 않으면 삭제가 불가능하다. Custom Resources로 S3를 비워서 버켓 삭제도 자동화할 수 있다.)
+- `Custom::MyCustomResourceTypeName`으로 템플릿 내에 정의한다.
+- 람다(대부분의 경우)나 SNS topic을 통해 구현된다.
 > [!important]  
 > ARN이란? Amazon Resource Name으로 아마존 리소스의 고유한 식별자  
+### How to define a Custom Resource?
+- ServiceToken은 CloudFormation이 보낼 요청 장소(Lambda ARN이거나 SNS ARN)를 명시한다. (Region은 무조건 동일해야 한다.)
+- ![Pasted image 20250116203026.png](/img/user/Pasted%20image%2020250116203026.png)
 
-![[image 45.png\|image 45.png]]
-
-
-
-- [DVA] CloudFormation - Dynamic References
-- Dynamic References
-
-![[image 46.png\|image 46.png]]
-
-- SSM이나 Secrets Manager의 값을 CloudFormation 내에서 사용합니다.
-- create/update/delete 오퍼레이션 중에 값들을 가져올 수 있습니다.
-- 예: 템플릿을 통해서 RDS를 만들 때, SM에서 유저의 패스워드를 가져올 수 있다.
+---
+## [DVA] CloudFormation - Dynamic References
+### Dynamic References
+- SSM의 Parameter Store나 Secrets Manager의 값을 CloudFormation 템플릿 내에서 사용합니다.
+- Terraform의 `data` 태그와 비슷한 역할인듯?
 - 지원 예:
-- ssm - Plain text
-- ssm-secure - SSM에서 암호화된 String
-- secretsmanager - Secrets Manager에 저장된 값
+	- ssm - Plain text
+	- ssm-secure - SSM에서 암호화된 String
+	- secretsmanager - Secrets Manager에 저장된 값
 
-
-
-![[image 47.png\|image 47.png]]
-
-- AWS System Manager vs AWS Secrets Manager
-- **비용**: SSM Parameter Store는 표준 파라미터에 대한 무료 제공이 있어 소규모 프로젝트나 간단한 설정 관리에 유리합니다. 반면, Secrets Manager는 자동 비밀번호 갱신 기능을 제공하므로 보안이 중요한 애플리케이션에 적합하지만 비용이 더 높습니다.
+---
+## AWS System Manager vs AWS Secrets Manager
+- **비용**: **SSM Parameter Store**는 **표준 파라미터에 대한 무료 제공**이 있어 소규모 프로젝트나 간단한 설정 관리에 유리합니다. 반면, **Secrets Manager는 자동 비밀번호 갱신** 기능을 제공하므로 보안이 중요한 애플리케이션에 적합하지만 비용이 더 높습니다.
 - **용량**: Secrets Manager는 하나의 비밀에 대해 최대 64KB를 지원하며, Parameter Store는 최대 8KB까지만 저장할 수 있습니다.
 - **기능**: Secrets Manager는 자동 비밀 교체 및 더 높은 보안 관리 기능을 제공하는 반면, SSM Parameter Store는 더 단순한 설정 정보 저장을 위한 서비스입니다.
-- Secrets Manager & RDS Setting
 
-![[image 48.png\|image 48.png]]
-
-
-
-![[image 49.png\|image 49.png]]
-
-- CloudFormation - User Data
-- User Data in EC2 for CloudFormation
-
-![[image 50.png\|image 50.png]]
-
+---
+## CloudFormation - User Data
+### User Data in EC2 for CloudFormation
 - Fn::Base64로 초기화 스크립트를 EC2에 전달할 수 있다.
 - User Data 스크립트 로그는 /var/log/cloud-init-output.log에 작성된다.
-- The Problems with EC2 User Data
-
-![[image 51.png\|image 51.png]]
-
+### The Problems with EC2 User Data
 - 설정 파일이 엄청 클 때는 어떻게할까?
 - 인스턴스를 프로비저닝 과정을 거치지 않고 실행 중인 인스턴스들은 어떻게 UserData를 실행할까?
 - 어떻게 user-data를 더 읽기 쉽게 만들까
 - 스크립트 성공 여부는 어떻게 파악할까?
 
-
-
-- 이를 해결하는 것이 CloudFormation Helper Scripts
-- cfn-init, cfn-signal 등 여러 설정 파일 스크립트를 제공한다.
-- CloudFormation - cfn-init
-
-![[image 52.png\|image 52.png]]
-
+- 이를 해결하는 것이 **CloudFormation Helper Scripts**
+	- AMI에 기본으로 깔려 있는 Python 스크립트다. AMI가 아닌 이미지에도 yum이나 dnf로 설치 가능하다.
+	- **cfn-init, cfn-signal** 등 여러 설정 파일 스크립트를 제공한다.
+	- EC2에 접속해서 cfn-init 명령어 실행이 가능하다.
+### CloudFormation - cfn-init
 - 유저명, 그룹, 패키지 등 인스턴스에 초기 설정에 필요한 내용들을 YAML 파일에 작성한다.
-
-![[image 53.png\|image 53.png]]
-
 - 리소스를 획득하고 리소스 메타데이터를 해석하는데 사용된다.
-- EC2 인스턴스가 CloudFormation에 cfn-init 스크립트를 요청하고 받은 후에 실행한다.
+- EC2 인스턴스는 CloudFormation 서비스의 init을 위한 데이터를 쿼리할 것이다.
 - 로그는 /var/log/cfn-init.log에 작성된다.
-- CloudFormation - cfn-signal & Wait Condition
-
-![[image 54.png\|image 54.png]]
-
+### CloudFormation - cfn-signal & Wait Condition
 - cfn-signal을 통해서 cfn-init 설정 결과를 CloudFormation으로 보낼 수 있습니다.
 - cfn-signal을 위해선 WaitCondition을 작성해야 한다.
-- 템플릿 동작을 명시한 WaitCondition이 끝나기 전까지 Block한다.
-- WaitCondition엔 Creation Policy를 명시한다. (EC2와 ASG에서도 동작한다.)
-- Count를 사용하여 WaitCondition이 끝나는 조건인 cfn-signal 수신 개수를 명시한다.
-- CloudFormation - cfn-signal Failures
-
-![[image 55.png\|image 55.png]]
-
+	- 템플릿 동작을 명시한 WaitCondition이 끝나기 전까지 Block한다.
+	- WaitCondition엔 Creation Policy를 명시한다. (EC2와 ASG에서도 동작한다.)
+	- Count를 사용하여 WaitCondition이 끝나는 조건인 cfn-signal 수신 개수를 명시한다.
+### CloudFormation - cfn-signal Failures
 - cfn-init과 cfn-signal이 정상적으로 동작했는지 /var/log/cloud-init.log나 /var/log/cfn-init.log에서 확인 가능합니다.
 - 단, CloudFormation의 실패 시에 롤백 기능을 꺼야 합니다.
 - 인스턴스가 인터넷과 연결됐는지 확인하세요.
-- CloudFormation - Nested Stacks
-- Nested Stacks
 
-![[image 56.png\|image 56.png]]
-
-- 중첩 스택은 스택 내에서 또 다른 스택의 스택 역할을 합니다.
+---
+## CloudFormation - Nested Stacks
+### Nested Stacks
+- 중첩 스택(Nested Stack)은 스택 내에서 또 다른 스택의 스택 역할을 합니다. (Terraform의 모듈 느낌인듯?)
 - 반복되는 패턴과 공통 컴포넌트를 격리화하여 또 다른 스택에서 격리된 컴포넌트들을 호출합니다.
 - 중첩 스택을 업데이트하기 위해선 root stack을 업데이트해야 합니다.
 - 여러 스택을 사용하는 방법 두 가지 Cross Stacks vs Nested Stacks
-
-![[image 57.png\|image 57.png]]
-
-- **Cross Stacks**
+### Cross Stacks
 - 스택들이 서로 다른 라이프 사이클을 가질 때 도움이 된다.
-- Outputs Export를 통해 스택에서 값을 출력하고 ImportValue를 통해 값을 입력 받는다.
+- Outputs Export를 통해 스택에서 값을 출력하고 ImportValue를 통해 값을 입력 받는다. (Stack을 만들고 출력 값을 다른 Stack에 Import하는 식인듯)
 - VPC Id와 같은 값들을 여러 스택에 전달할 필요가 있을 때 사용
-- Nested Stacks
+### Nested Stacks
 - 동일한 설정의 component를 재사용할 때 도움된다. (동일한 오브젝트를 사용하는 게 아니라 동일한 설정을 가진 Component를 만들어서 사용하는 것)
-- 예: ALB을 어떻게 적절하게 설정할지 재사용
+	- 예: ALB을 어떻게 적절하게 설정할지 재사용
 - 중첩 스택은 상위 스택에만 중요합니다. (모든 중첩 스택들은 상위 스택에 의해서 관리된다.)
 - CloudFormation - Depends On
-- DependsOn
-
-![[image 58.png\|image 58.png]]
-
+### DependsOn
 - 특정 리소스가 만들어진 후에 리소스를 만들기 위해 사용
-- GetAtt나 Ref를 사용하면 자동으로 해당 리소스의 DependOn하는 효과를 발휘한다.
-- CloudFormation - StackSets
-- StackSets
+- Terraform에도 있음.
+- GetAtt나 Ref를 사용하면 자동으로 해당 리소스의 DependOn하는 효과를 발휘한다. (선언형 프로그래밍 방식인덧)
 
-![[image 59.png\|image 59.png]]
-
-- StackSets를 사용해서 여러 계정, Region의 Stack을 한 번에 수정할 수 있다.
+---
+## CloudFormation - StackSets
+### StackSets
+- StackSets를 사용해서 여러 계정, Region에 Stack을 한 번에 생성 / 삭제 / 수정할 수 있다.
 - Administrator 계정을 사용해서 StackSets를 만들 수 있다.
+- StackSets에 스택을 생성 / 삭제 / 수정할 타겟 계정을 설정해라.
 - StackSets를 업데이트하면 모든 연결된 Stack들이 업데이트된다.
-- StackSets Permission Models
 
-![[image 60.png\|image 60.png]]
-
-**StackSets 권한 모델(Permission Models)**
-
+---
+## StackSets Permission Models
+### StackSets 권한 모델(Permission Models)
 - Self-Managed Permissions (AWS Organization을 안 쓰는 경우)
-- Administrator와 타겟 유저 계정에 IAM 역할(Administration Role, Execution Role)을 만든다.
-- 위처럼 역할을 가졌다면 해당 계정에 Stack을 만들 수 있습니다.
+	- Administrator와 타겟 유저 계정에 IAM 역할(Administration Role, Execution Role)을 만든다.
+	- IAM 역할을 만들 수 있는 권한이 있는 타겟 계정에 배포한다.
 - Service-managed Permissions(AWS Organization을 쓰는 경우)
-- AWS Organization을 통해 관리되는 계정들에 배포합니다.
-- AWS Organization에 **trusted access**를 활성화하면 StackSets는 알아서 IAM 역할을 만듭니다.
-- **반드시** AWS Organizations에서 모든 기능을 Enable해야 합니다.
+	- AWS Organization을 통해 관리되는 계정들에 배포합니다.
+	- AWS Organization에 **trusted access**를 활성화하면 StackSets는 알아서 IAM 역할을 만듭니다.
+	- **반드시** AWS Organizations에서 모든 기능을 Enable해야 합니다.
+	- Organization에 유저가 추가되면 해당 유저에게도 Stack을 배포한다.
 
-
-
-- StackSets with AWS Organizations
-
-![[image 61.png\|image 61.png]]
-
+### StackSets with AWS Organizations
 - 새로운 계정이 Organization에 추가되면 자동으로 해당 스택도 배포한다.
 - StackSet 어드민 권한을 Organization에 위임 가능하다.
-- Trusted Access가 반드시 활성화 되어 있어야 한다.
-
-![[image 62.png\|image 62.png]]
-
-
-
-- Hands-On: StackSets
-
-![[image 63.png\|image 63.png]]
-
-
-
-- **Troubleshooting**
-- Troubleshooting
-
-![[image 64.png\|image 64.png]]
-
-**CloudFormation 트러블 슈팅**
-
+- 어드민을 위임하기 전에 **Trusted Access with AWS Organizations**가 반드시 활성화 되어 있어야 한다.
+---
+## Troubleshooting
+### CloudFormation - Troubleshooting
 - DELETE_FAILED
-		- S3 같은 애들은 먼저 내용물(버킷)이 비어야 한다.
-				- Lambda로 버킷 내용 비우기를 자동화해라
-		- Security Group을 삭제하기 전에 먼저 모든 EC2를 삭제해야 한다.
-		- 특정 리소스 삭제가 계속 실패한다면 DeletionPolicy를 Retain으로 둬서 스킵할 수도 있다. → 수동 삭제해야함
+	- S3 버킷은 내부가 비어있지 않으면 삭제가 불가능하다.
+		- CustomResource로 Lambda 함수를 실행하여 버킷 내용을 비우고 삭제할 수 있음.
+	- Security Group을 삭제하기 전에 먼저 모든 EC2를 삭제해야 한다.
+		- EC2가 참조하고 있어서 삭제가 불가능함. -> 서순이 있음.
+	- 유지하고 싶은 리소스는 DeletionPolicy를 Retain으로 둬라.
 - UPDATE_ROLLBACK_FAILED(업데이트에 실패하고 롤백을 하려했지만 롤백도 실패한 경우)
-		- CloudFormation 외부에서 문제가 발생한 경우, 권한이 부족한 경우, ASG가 충분한 Signal을 받지 못한 경우
-		- 수동으로 고치고 ContinueUpdateRollback을 실행하시오.(롤백을 마저 진행함)
-- StackSet Troubleshooting
-
-![[image 65.png\|image 65.png]]
-
-**CloudFormation - StackSet Troubleshooting**
-
+	- CloudFormation 외부에서 문제가 발생한 경우, 권한이 부족한 경우, ASG가 충분한 Signal을 받지 못한 경우
+	- 수동으로 고치고 ContinueUpdateRollback을 실행하시오.(롤백을 마저 진행함)
+---
+## StackSet Troubleshooting
+### CloudFormation - StackSet Troubleshooting
 - 스택이 작업에 실패했고, 스택 인스턴스의 상태가 OUTDATED면
-		- 타겟 계정의 충분한 권한이 없어서 리소스를 만들 수 없는 경우
-		- 글로벌 리소스라서 Unique해야 하는데 Unique하지 않게 명시해서(예: S3명)
-		- Admin 계정과 target 계정이 trust Relation이 없어서(Admin Role, Execution Role)
-		- Target 계정의 리소스가 너무 많아서 Limit를 초과한 경우
+	- 타겟 계정의 충분한 권한이 없어서 리소스를 만들 수 없는 경우
+	- 글로벌 리소스라서 Unique해야 하는데 Unique하지 않게 명시해서(예: S3명)
+	- Admin 계정과 target 계정이 trust Relation이 없어서(Admin Role, Execution Role)
+	- Target 계정의 리소스가 너무 많아서 Limit를 초과한 경우
 ---
 # 참고 자료
+AWS JSON 정책 요소: Principal
+https://docs.aws.amazon.com/ko_kr/IAM/latest/UserGuide/reference_policies_elements_principal.html
