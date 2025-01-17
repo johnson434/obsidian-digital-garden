@@ -82,13 +82,13 @@
 	- 단, 임의의 Docker Image 실행하는데는 보통 ECS/Fargate가 선호된다.
 		- ECS는 EC2에 Container 실행하는 방식이고 Fargate는 컨테이너 자체를 실행하는 방식일거임.
 ### AWS Lambda Integrations Main ones
-![Pasted image 20250117111650.png](/img/user/Pasted%20image%2020250117111650.png)
+![Pasted image 20250117111650.png](/img/user/image/Pasted%20image%2020250117111650.png)
 - 여기에는 안나왔는데 ALB에서 바로 Lambda 호출도 가능함. 정확하게는 Target Group(EC2, IP 주소들, Lambda 함수, ALB가 Target Group의 대상이 될 수 있음.)
 ### Example: Serverless Thumbnail creation
 - AWS Lambda에서 Trigger를 액션에 따라 지정 가능하다. (예: PutObject, GetObject, All)
-![Pasted image 20250117113146.png](/img/user/Pasted%20image%2020250117113146.png)
+![Pasted image 20250117113146.png](/img/user/image/Pasted%20image%2020250117113146.png)
 ### Example: Serverless CRON Job
-![Pasted image 20250117113424.png](/img/user/Pasted%20image%2020250117113424.png)
+![Pasted image 20250117113424.png](/img/user/image/Pasted%20image%2020250117113424.png)
 - EventBridge는 AWS의 리소스들을 이벤트를 통해 연결
 ### AWS Lambda Pricing: example
 - 비용: https://aws.amazon.com/lambda/pricing/
@@ -106,7 +106,7 @@
 ---
 ## Lambda & CloudWatch Events / EventBridge
 ### CloudWatch Events / EventBridge
-![Pasted image 20250117114425.png](/img/user/Pasted%20image%2020250117114425.png)
+![Pasted image 20250117114425.png](/img/user/image/Pasted%20image%2020250117114425.png)
 - CRON이나 EventBridge Rule을 설정해서 특정 주기로 Lambda 실행하기
 - EventBridge Rule로 CodePipeline을 관찰하다가 변경되면 Lambda 실행하기
 
@@ -117,7 +117,7 @@
 - 만약, Non-versioned object에 2개 이상 파일 쓰기 요청이 들어오면 이벤트가 한 개만 전달 될 수도 있다.
 - 이러한 동일한 오브젝트에 쓰기 요청이 성공할 때마다 이벤트를 전달하고 싶으면 S3 Bucket에서 Object Versioning 옵션을 활성화해라. (파일의 버전이 생성됨)
 ### Simple S3 Event Pattern - Metadata Sync
-![Pasted image 20250117115651.png](/img/user/Pasted%20image%2020250117115651.png)
+![Pasted image 20250117115651.png](/img/user/image/Pasted%20image%2020250117115651.png)
 
 ---
 ## Lambda Permissions - IAM Roles & Resource Policies
@@ -243,7 +243,7 @@ def get_user_handler(event, context):
 		- 뉴스 조회
 	- 위 상황에서 뉴스 발행이 엄청 많은 요청이 들어와서 Concurrency 1000개를 다 쓴다고 가정하자.
 	- 뉴스 발행은 되는데 뉴스 조회는 Throttling이 일어난다.
-![Pasted image 20250117130158.png](/img/user/Pasted%20image%2020250117130158.png)
+![Pasted image 20250117130158.png](/img/user/image/Pasted%20image%2020250117130158.png)
 ### Concurrency and Asynchronous Invocations
 - Throttling 에러(429)나 시스템 에러(500번대 에러들)로 실패한 람다 함수는 queue에 전달되어 실패한 람다함수는 최대 6시간동안 재시도된다.
 - 재시도 주기는 1초부터 5분까지다. (재시도 주기는 점층적으로 늘어난다.)
@@ -266,7 +266,7 @@ def get_user_handler(event, context):
 ---
 ## Lambda Monitoring - Extras
 ### Lambda Monitoring - CloudWatch Metrics
-![Pasted image 20250117131643.png](/img/user/Pasted%20image%2020250117131643.png)
+![Pasted image 20250117131643.png](/img/user/image/Pasted%20image%2020250117131643.png)
 
 ---
 # 참고 자료
