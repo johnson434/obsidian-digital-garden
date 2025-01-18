@@ -272,7 +272,6 @@
 	- 여러 AZ에 최대 100개 인스턴스까지 붙일 수 있다.
 	- Linux 인스턴스만 사용 가능하다.(**POSIX 파일시스템을 사용하므로**)
 	- EFS는 EBS보다 비싸지만 비용 절감이 가능하다.(스토리지 클래스를 통해서)
-
 ---
 ## EFS Access Points
 ### EFS - Access Points
@@ -289,8 +288,6 @@
 - Migration을 해야 가능한 작업들 (Data Sync로 이전 가능)
 	- 암호화된 EFS로 이전
 	- 퍼포먼스 모드로 변경(e.g. Max IO)
-- EFS - CloudWatch Metrics
-
 ---
 ## EFS - CloudWatch Metrics
 - PercentIOLimit
