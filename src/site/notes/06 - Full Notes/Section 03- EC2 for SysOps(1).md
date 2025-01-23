@@ -206,7 +206,12 @@ same region)
 > [!important]  
 > 테넌시란? EC2 인스턴스가 물리적으로 저장되는 방식  
 ### **Saving Plans**
+- 캐시포인트처럼 사용 포인트(commitment)를 사서 서비스를 쓰는 느낌
 - 장기간 사용을 예상하고 할인(최대 72%)
+- 제일 높은 할인 계약부터 적용된다.
+	- 예시:
+		- EC2 30% 할인, Lambda 15% 할인
+		- EC2 먼저 30% 할인 금액으로 계산하고 만약 비용을 초과했다면 초과 전 금액까지만 EC2를 계산, 초과하지 않았다면 Lambda도 적용 계산
 - 사용량에 따라 계약 가능하다($10/hour이 할인으로 1년 or 3년)
 	- 자세한 설명
 		- $ 10/hour이 이해가 안갔는데 약정 금액이 10$/hour인거다. 만약, EC2 100대를 사용해서 한 시간에 15달러가 나왔다? 10달러 요금까지는 Saving Plans 기준으로 요금을 내고(최대 기준 72%) 나머지 5달러는 EC2 onDemand 요금으로 낸다. 참고로 EC2를 아예 사용하지 않아도 약정 금액은 무조건 나간다.
@@ -216,6 +221,23 @@ same region)
 	- Instance Size(e.g m5.xlarge → m5.x2Large)
 	- OS (eg. Linux, Windows)
 	- Tenancy (Host, Dedicated, Default)
+- 다음은 예시로 실제 비용과 차이가 있을 수 있음.
+	- ![Pasted image 20250123121735.png](/img/user/image/Pasted%20image%2020250123121735.png)
+	- 공통 조건
+		- `r5.4xlarge` 4개 = 4
+		- `m5.24xlarge` 1개 = 10
+		-  `Fargate` 400vCPU랑 1,600GB
+		-  `Lambda` 100만개 요청, 512MB 3초
+	- **케이스 1**: Saving Plan with a $50.00/hour commitment
+		- 공식: `r5.4xlarge` + `m5.24xlarge` + `Fargate` + `Lambda`
+		- SP 사용 시 1시간 비용: 47.13
+		- SP 없을 시 1시간 비용: `(4 * 1)` + `(1 * 10)` + `(400 * 0.04 + 1600 * 0.004)` + `(0.2 + 0.5 * 3 * 1,000,000 * 0.000015)` = 36.4 + (0.2 + 22.5?) = $59.10
+	- **케이스 2**: Saving Plane with a $2/hour commitment
+		- 제일 높은 할인률보다 적용됨. (`r5.4xlarge`가 30%로 제일 할인률이 높다.)
+		- r5.4xlarge 시간당 0.7달러
+		- 2 / 0.7 = 2.857142857... === 2.9 => `r5.4xlarge` 4개 유닛 중에서 2.9개 할인만 받고 나머지 1.1은 온디맨드
+		- 나머지 `m5.24xlarge`, `Fargate`, `Lambda`는 SP 요금을 모두 다 썼으므로 온디맨드로 요금 부여
+- 공식 예시: https://docs.aws.amazon.com/savingsplans/latest/userguide/sp-applying.html
 ### **Spot Instances**
 - 온디멘드에 비해 최대 90프로 저렴하다.
 - 설정한 max price이 현재 spot 가격보다 낮으면 인스턴스를 뺏긴다. (설정한 예산보다 EC2의 요구 가격이 비싸므로 빌리지 못하는 것)
