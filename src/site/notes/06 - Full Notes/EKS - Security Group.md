@@ -2,7 +2,7 @@
 {"dg-publish":true,"permalink":"/06-full-notes/eks-security-group/","dgPassFrontmatter":true}
 ---
 
-[[03 - Tags/EKS\|EKS]] 
+[[03 - Tags/EKS\|03 - Tags/EKS]] 
 # 핵심 요약
 - EKS를 만들면 Cluster Security Group이 만들어집니다.
 - Additional Security Group은 명시하는 경우에만 만들어집니다.
