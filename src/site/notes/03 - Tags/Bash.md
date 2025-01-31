@@ -1,0 +1,4 @@
+---
+{"dg-publish":true,"permalink":"/03-tags/bash/","noteIcon":""}
+---
+

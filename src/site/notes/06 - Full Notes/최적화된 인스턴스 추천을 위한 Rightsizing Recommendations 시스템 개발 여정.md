@@ -4,7 +4,6 @@
 
 # Tags
 - [[03 - Tags/AWS\|AWS]]
-- [[03 - Tags/DevOps\|DevOps]]
 
 ---
 ## 리소스 절약을 위한 시작점

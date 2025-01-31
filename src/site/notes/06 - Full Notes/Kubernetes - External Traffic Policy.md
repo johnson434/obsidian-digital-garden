@@ -17,6 +17,6 @@
 - 만약, 로컬호스트에 해당 Pod가 존재하지 않는다면 대상이 없어 Connection Timeout이 난다.
 ## EKS VPC CNI의 경우
 - ENI를 통해서 Pod가 존재하는 노드로 바로 라우팅된다.
-- ![Pasted image 20250124161737.png](/img/user/06%20-%20Full%20Notes/Pasted%20image%2020250124161737.png)
+- ![Pasted image 20250124161737.png](/img/user/image/Pasted%20image%2020250124161737.png)
 - 위 그림처럼 EKS VPC CNI Add On을 키게 되면 Pod와 연결되어 있는 ENI로 트래픽이 바로 전송된다.
 - 따라서, 노드포트를 통한 오버레이 네트워크가 발생하지 않으며 ExternalTrafficPolicy로 들어온 요청이 해당 노드의 Pod가 없어서 클러스터로 재전송 될 일이 없다.
