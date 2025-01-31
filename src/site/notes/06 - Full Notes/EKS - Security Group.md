@@ -1,6 +1,7 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/eks-security-group/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/eks-security-group/","noteIcon":""}
 ---
+
 
 [[03 - Tags/EKS\|03 - Tags/EKS]] 
 # 핵심 요약

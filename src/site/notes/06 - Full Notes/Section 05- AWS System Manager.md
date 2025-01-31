@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-05-aws-system-manager/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/section-05-aws-system-manager/","noteIcon":""}
 ---
 
 # Tags

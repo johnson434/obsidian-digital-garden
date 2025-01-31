@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-08-cloudformation-for-sys-ops/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/section-08-cloudformation-for-sys-ops/","noteIcon":""}
 ---
 
 # Tags

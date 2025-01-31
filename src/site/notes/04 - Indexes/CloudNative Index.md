@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/04-indexes/cloud-native-index/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/04-indexes/cloud-native-index/","noteIcon":""}
 ---
 
 # Architecture

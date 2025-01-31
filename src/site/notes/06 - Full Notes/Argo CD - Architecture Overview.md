@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/argo-cd-architecture-overview/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/argo-cd-architecture-overview/","noteIcon":""}
 ---
 
 [[03 - Tags/ArgoCD\|ArgoCD]]

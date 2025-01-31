@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-09-lambda-for-sys-ops/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/section-09-lambda-for-sys-ops/","noteIcon":""}
 ---
 
 # Tags

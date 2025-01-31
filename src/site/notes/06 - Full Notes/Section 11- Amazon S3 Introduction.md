@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-11-amazon-s3-introduction/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/section-11-amazon-s3-introduction/","noteIcon":""}
 ---
 
 # Tags

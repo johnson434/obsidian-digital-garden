@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/04-indexes/network-index/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/04-indexes/network-index/","noteIcon":""}
 ---
 
 # IT 엔지니어를 위한 네트워크

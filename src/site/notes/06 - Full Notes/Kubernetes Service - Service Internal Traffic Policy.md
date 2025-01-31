@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/kubernetes-service-service-internal-traffic-policy/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/kubernetes-service-service-internal-traffic-policy/","noteIcon":""}
 ---
 
 [[03 - Tags/Kubernetes Service\|Kubernetes Service]] [[03 - Tags/작성 중인 문서\|작성 중인 문서]]

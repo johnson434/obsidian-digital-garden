@@ -1,4 +1,4 @@
 ---
-{"dg-publish":true,"permalink":"/03-tags/aws/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/03-tags/aws/","noteIcon":""}
 ---
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/bastion-host-nginx/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/bastion-host-nginx/","noteIcon":""}
 ---
 
 [[03 - Tags/작성 중인 문서\|작성 중인 문서]]

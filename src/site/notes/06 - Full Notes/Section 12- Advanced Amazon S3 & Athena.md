@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-12-advanced-amazon-s3-and-athena/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/section-12-advanced-amazon-s3-and-athena/","noteIcon":""}
 ---
 
 # Tags

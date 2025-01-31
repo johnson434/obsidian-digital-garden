@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-04-ami-amazon-machine-image/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/section-04-ami-amazon-machine-image/","noteIcon":""}
 ---
 
 # Tags

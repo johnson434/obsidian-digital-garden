@@ -1,4 +1,4 @@
 ---
-{"dg-publish":true,"permalink":"/03-tags/database/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/03-tags/database/","noteIcon":""}
 ---
 

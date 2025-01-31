@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-home":null,"permalink":"/04-indexes/aws-index/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/04-indexes/aws-index/","noteIcon":""}
 ---
 
 # AWS SysOps 강의

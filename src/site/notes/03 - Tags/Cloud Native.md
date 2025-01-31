@@ -1,4 +1,4 @@
 ---
-{"dg-publish":true,"permalink":"/03-tags/cloud-native/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/03-tags/cloud-native/","noteIcon":""}
 ---
 

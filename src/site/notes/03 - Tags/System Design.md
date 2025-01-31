@@ -1,4 +1,4 @@
 ---
-{"dg-permalink":"system-design","dg-publish":true,"permalink":"/system-design/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"dg-permalink":"system-design","permalink":"/system-design/","noteIcon":""}
 ---
 

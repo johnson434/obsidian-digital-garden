@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/pod/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/pod/","noteIcon":""}
 ---
 
 [[03 - Tags/Kubernetes Pod\|Kubernetes Pod]] [[03 - Tags/작성 중인 문서\|작성 중인 문서]]

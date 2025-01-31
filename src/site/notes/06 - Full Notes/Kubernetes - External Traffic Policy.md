@@ -1,6 +1,7 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/kubernetes-external-traffic-policy/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"dg-permalink":"system-design/asdfasdfas","permalink":"/system-design/asdfasdfas/","noteIcon":""}
 ---
+
 
 [[03 - Tags/Kubernetes Service\|Kubernetes Service]]
 ## External Traffic Policy란?

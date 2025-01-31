@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/it-4-stp/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/it-4-stp/","noteIcon":""}
 ---
 
 [[03 - Tags/IT 엔지니어를 위한 네트워크\|IT 엔지니어를 위한 네트워크]]

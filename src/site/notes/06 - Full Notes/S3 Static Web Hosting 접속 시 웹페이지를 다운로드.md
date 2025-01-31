@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/s3-static-web-hosting/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/s3-static-web-hosting/","noteIcon":""}
 ---
 
 [[03 - Tags/AWS S3\|AWS S3]]

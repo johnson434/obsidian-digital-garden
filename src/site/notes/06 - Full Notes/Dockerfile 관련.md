@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/dockerfile/","dgPassFrontmatter":true,"noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/dockerfile/","noteIcon":""}
 ---
 
 [[03 - Tags/Docker\|Docker]]
