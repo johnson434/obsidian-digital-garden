@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"dg-permalink":"system-design/asdfasdfas","permalink":"/system-design/asdfasdfas/","noteIcon":""}
+{"dg-publish":true,"permalink":"/06-full-notes/kubernetes-external-traffic-policy/","noteIcon":""}
 ---
 
 
