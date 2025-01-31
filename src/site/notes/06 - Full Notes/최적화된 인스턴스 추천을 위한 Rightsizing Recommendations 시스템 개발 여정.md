@@ -3,6 +3,7 @@
 ---
 
 # Tags
+- [[03 - Tags/AWS\|AWS]]
 - [[03 - Tags/DevOps\|DevOps]]
 
 ---
