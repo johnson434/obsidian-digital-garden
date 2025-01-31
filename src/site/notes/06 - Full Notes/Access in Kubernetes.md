@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/access-in-kubernetes/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/access-in-kubernetes/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 [[03 - Tags/Kubernetes Authentication\|Kubernetes Authentication]]

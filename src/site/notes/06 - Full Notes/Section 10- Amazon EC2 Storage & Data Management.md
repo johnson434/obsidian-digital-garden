@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-10-amazon-ec-2-storage-and-data-management/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/section-10-amazon-ec-2-storage-and-data-management/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 # Tags

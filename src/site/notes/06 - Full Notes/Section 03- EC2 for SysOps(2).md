@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-03-ec-2-for-sys-ops-2/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/section-03-ec-2-for-sys-ops-2/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 [[06 - Full Notes/Section 03- EC2 for SysOps(1)\|Section 03- EC2 for SysOps(1)]] 

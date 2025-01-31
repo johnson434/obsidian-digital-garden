@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/eks-security-group/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/eks-security-group/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 [[03 - Tags/EKS\|03 - Tags/EKS]] 

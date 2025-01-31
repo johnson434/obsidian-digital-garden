@@ -1,4 +1,4 @@
 ---
-{"dg-publish":true,"permalink":"/03-tags/dev-ops/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/03-tags/dev-ops/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 

@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/docker-cli-command/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/docker-cli-command/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 [[03 - Tags/Docker\|Docker]] 

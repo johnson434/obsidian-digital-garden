@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/caching-write-through-vs-write-back/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/caching-write-through-vs-write-back/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 # Tags

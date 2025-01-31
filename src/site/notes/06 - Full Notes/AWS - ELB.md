@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/aws-elb/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/aws-elb/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 # Tags

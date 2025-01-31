@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/kubernetes-external-traffic-policy/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/kubernetes-external-traffic-policy/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 [[03 - Tags/Kubernetes Service\|Kubernetes Service]]

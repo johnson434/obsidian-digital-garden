@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-14-advanced-storage-section/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/section-14-advanced-storage-section/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 # Tags

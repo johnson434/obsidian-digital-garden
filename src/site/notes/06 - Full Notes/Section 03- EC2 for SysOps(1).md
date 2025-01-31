@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-03-ec-2-for-sys-ops-1/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/section-03-ec-2-for-sys-ops-1/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 # Tags

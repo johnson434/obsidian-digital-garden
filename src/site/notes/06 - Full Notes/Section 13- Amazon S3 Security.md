@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-13-amazon-s3-security/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/section-13-amazon-s3-security/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 # Tags

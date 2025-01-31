@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/it-1-osi-7-vs-tcp-ip-4/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/it-1-osi-7-vs-tcp-ip-4/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 [[03 - Tags/IT 엔지니어를 위한 네트워크\|IT 엔지니어를 위한 네트워크]]

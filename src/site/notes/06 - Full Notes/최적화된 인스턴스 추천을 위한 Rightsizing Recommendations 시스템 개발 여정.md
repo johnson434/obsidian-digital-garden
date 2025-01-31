@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/rightsizing-recommendations/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/rightsizing-recommendations/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 # Tags

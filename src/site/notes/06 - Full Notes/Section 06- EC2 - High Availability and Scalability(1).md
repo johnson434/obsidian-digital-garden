@@ -1,5 +1,5 @@
 ---
-{"dg-publish":true,"permalink":"/06-full-notes/section-06-ec-2-high-availability-and-scalability-1/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/06-full-notes/section-06-ec-2-high-availability-and-scalability-1/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 # Tags

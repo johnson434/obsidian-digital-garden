@@ -1,5 +1,5 @@
 ---
-{"dg-home":true,"dg-publish":true,"permalink":"/04-indexes/home-index/","tags":["gardenEntry"],"dgPassFrontmatter":true}
+{"dg-home":true,"dg-publish":true,"permalink":"/04-indexes/home-index/","tags":["gardenEntry"],"dgPassFrontmatter":true,"noteIcon":""}
 ---
 
 # 일일 계획표

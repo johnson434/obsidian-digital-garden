@@ -1,4 +1,4 @@
 ---
-{"dg-publish":true,"permalink":"/03-tags/docker/","dgPassFrontmatter":true}
+{"dg-publish":true,"permalink":"/03-tags/docker/","dgPassFrontmatter":true,"noteIcon":""}
 ---
 
