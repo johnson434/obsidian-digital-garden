@@ -7,7 +7,7 @@
 
 ---
 # AWS
-- [[03 - Tags/AWS\|AWS]]
+- [[04 - Indexes/AWS Index\|AWS Index]]
 
 ---
 # Cloud Native
