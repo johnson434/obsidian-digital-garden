@@ -2,7 +2,7 @@
 {"dg-publish":true,"permalink":"/06-full-notes/dev-ops-rolling-deployments/","noteIcon":""}
 ---
 
- [[03 - Tags/배포 전략\|배포 전략]] 
+ [[03 - Tags/deployment-strategy\|deployment-strategy]] 
 # **Rolling Deployments란?**
 다운타임 없이 어플리케이션을 배포하는 방법입니다. 업그레이드 된 서비스를 올리고 이전 버전을 하나씩 종료합니다.
 # 구현 알고리즘

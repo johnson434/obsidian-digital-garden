@@ -2,7 +2,7 @@
 {"dg-publish":true,"permalink":"/06-full-notes/it-3-tcp-udp/","noteIcon":""}
 ---
 
-[[03 - Tags/IT 엔지니어를 위한 네트워크\|IT 엔지니어를 위한 네트워크]]
+[[03 - Tags/IT Engineer를 위한 네트워크\|IT Engineer를 위한 네트워크]]
 # 단서 질문
 - 유니캐스트, 멀티캐스트, 브로드캐스트, 애니캐스트란?
     유니캐스트: 1대1통신

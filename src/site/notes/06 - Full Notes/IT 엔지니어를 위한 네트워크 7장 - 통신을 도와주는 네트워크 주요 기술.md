@@ -2,7 +2,7 @@
 {"dg-publish":true,"permalink":"/06-full-notes/it-7/","noteIcon":""}
 ---
 
-[[03 - Tags/IT 엔지니어를 위한 네트워크\|IT 엔지니어를 위한 네트워크]]
+[[03 - Tags/IT Engineer를 위한 네트워크\|IT Engineer를 위한 네트워크]]
 # 단서 질문
 - NAT란?
     NAT(Network Address Translation)은 IP를 변환해서 패킷을 재전송하기 위해서 사용되는 프로토콜입니다.

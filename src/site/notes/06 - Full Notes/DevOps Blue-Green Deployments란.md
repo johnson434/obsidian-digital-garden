@@ -2,7 +2,7 @@
 {"dg-publish":true,"permalink":"/06-full-notes/dev-ops-blue-green-deployments/","noteIcon":""}
 ---
 
- [[03 - Tags/배포 전략\|배포 전략]]
+ [[03 - Tags/deployment-strategy\|deployment-strategy]]
 # Shared resources and cluster resources
 Blue/Green 배포를 위해서는 먼저 공유자원을 나눌 필요가 있다.
 공유자원이란 지속적으로 배포되고 여러 Application의 버전에서 공통적으로 사용되는 버전이다. 여기엔 Database가 포함된다.
