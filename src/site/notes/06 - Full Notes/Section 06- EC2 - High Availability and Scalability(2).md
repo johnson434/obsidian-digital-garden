@@ -3,8 +3,7 @@
 ---
 
 # Tags
-[[06 - Full Notes/Section 06- EC2 - High Availability and Scalability(1)\|Section 06- EC2 - High Availability and Scalability(1)]]
-
+- [[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]]
 ---
 # 단서 질문
 - ASG란?

@@ -9,42 +9,26 @@
 # 단서 질문
 - EC2 vs Lambda
     1. EC는 지속적으로 서버에서 돌아가지만 Lambda는 함수를 한 번 실행할뿐 서버를 점유하고 있지 않는다.
-    2. Lambda는 시간 제한이 있다. (최대 30분이었나)
+    2. Lambda는 시간 제한이 있다. (최대 15분)
     3. Lambda는 오토스케일링이 자동으로 된다. (요청만큼 생성)
 - Lambda의 CPU 스펙을 향상 시키는 방법은?
-    
-    RAM 사이즈를 키우면 CPU와 네트워크 성능이 알맞게 향상된다.
-    
+	    RAM 사이즈를 키우면 CPU와 네트워크 성능이 알맞게 향상된다.
 - Lambda는 어떻게 실행되는가?
-    
-    해당 코드가 실행될 컨테이너(JS면 NodeJS, Python이면 Python)에서 해당 코드가 실행됩니다.
-    
+	- firecracker라는 KVM 기반 소프트웨어를 통해서 실행된다.
 - Lambda를 사용할 수 없는 경우는?
-    
-    함수 실행 시간이 15분 이상인 경우. (최대 시간 제한이 15분임)
-    
+	    함수 실행 시간이 15분 이상인 경우. (최대 시간 제한이 15분임)
 - EventBridge란?
-    
-    EventBridge란 이벤트 버스 역할을 하며 서로 다른 AWS 서비스끼리 유기적으로 동작하게 만듭니다. 예를 들어, S3의 파일이 업로드 되면 EventBridge가 이 이벤트를 관찰하고 있다면 특정 행동(Lambda를 호출, SQS로 메시지 전달)이 트리거 됩니다.
-    
+	    EventBridge란 이벤트 버스 역할을 하며 서로 다른 AWS 서비스끼리 유기적으로 동작하게 만듭니다. 예를 들어, S3의 파일이 업로드 되면 EventBridge가 이 이벤트를 관찰하고 있다면 특정 행동(Lambda를 호출, SQS로 메시지 전달)이 트리거 됩니다.
 - DynamoDB란?
-    
-    **DynamoDB**는 AWS에서 제공하는 **서버리스 기반 Key-Value NoSQL 데이터베이스**입니다.
-    
-    **DynamoDB**를 사용하면 높은 성능과 비용적인 측면에서 이점을 가져올 수 있습니다.
-    
+	    **DynamoDB**는 AWS에서 제공하는 **서버리스 기반 Key-Value NoSQL 데이터베이스**입니다.
+	    **DynamoDB**를 사용하면 높은 성능과 비용적인 측면에서 이점을 가져올 수 있습니다.
 - AWS X-Ray란?
-    
-    분산 애플리케이션의 성능 추적을 위한 **서비스**로 함수 호출 시간, 실행에 걸리는 시간 등을 측정해서 CloudWatch에 제공한다.
-    
+	    분산 애플리케이션의 성능 추적을 위한 **서비스**로 함수 호출 시간, 실행에 걸리는 시간 등을 측정해서 CloudWatch에 제공한다.
 - Lambda Execution Context란?
-    
-    Lambda 실행 환경(Runtime Environment)입니다. Lambda의 실행되기 전에 해당 함수가 다시 호출되면 WarmStart로 해당 Execution Context 재사용이 가능합니다.
-    
+	    Lambda 실행 환경(Runtime Environment)입니다. Lambda의 실행되기 전에 해당 함수가 다시 호출되면 WarmStart로 해당 Execution Context 재사용이 가능합니다.
 - Lambda 함수를 처음 호출할 때 Latency를 줄이는 방법은?
     1. Lambda 함수를 주기적으로 실행해서 Cold Start를 방지
     2. **Provisioned Concurrency 설정을 통해 미리 Lambda를 예약해놓는다.**
-
 ---
 # 핵심 요약
 - 람다는 요청 시에 컨테이너를 생성 후에 함수를 실행한다.
@@ -58,7 +42,7 @@
 ## Lambda - Overview
 ### Why AWS Lambda
 **EC2**
-- Cloud의 가성 서버다.
+- Cloud의 가상 서버다.
 - RAM과 CPU가 제한된다.
 - EC2는 서버가 계속 돌아가는 상태다.
 - 스케일링은 서버의 개수를 조절하는 것
@@ -137,7 +121,6 @@
 ---
 ## Lambda Monitoring & X-Ray Tracing
 ### Lambda Logging & Monitoring
-
 - CloudWatch Logs
 	- 람다 실행 로그는 **CloudWatch Logs**에 기록된다.
 	- 람다가 로그를 작성하기 위해선 CloudWatch Execution Role이 있어야 한다.
@@ -181,7 +164,7 @@
 - RAM
 	- 128MB부터 10GB까지 1MB 단위로 늘릴 수 있다.
 	- RAM의 크기를 늘리면 vCPU와 네트워크가 향상된다.
-	- 1,792MB는 vCPU 1개와 동일하다.
+	- 1,792MB(1.75GB)는 vCPU 1개와 동일하다.
 	- 따라서, 만약 1,792MB 이상 램을 사용하면 멀티스레딩 사용이 효율적일 수 있다. (vCPU가 1코어 이상이면 동시에 한 개 이상의 스레드가 동작하는 게 효율적이니까. 코어당 하나의 실행 흐름을 가지니까)
 - 시간제한: default는 3초 최대 15분
 ### Lambda Execution Context

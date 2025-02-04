@@ -3,7 +3,7 @@
 ---
 
 # Tags
-[[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]] 
+- [[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]] 
 
 ---
 # 단서 질문
@@ -26,7 +26,7 @@
 ---
 # 핵심 요약
 - AMI(Amazon Machine Image)는 EC2 인스턴스가 사용할 수 있는 커스터마이징 이미지다.
-- AMI는 리전에 종속된다.
+- AMI는 **리전에 종속**된다.
 - Reboot 옵션을 설정하지 않으면 인스턴스를 중지하지 않고 AMI를 만들 수 있다.
 - 단, Reboot하지 않으면 파일 시스템 무결성을 보장하지 않는다.
 - 인스턴스 AZ 변경은 AMI를 만들고 해당 이미지로 새로운 AZ에서 인스턴스를 생성하면 된다.

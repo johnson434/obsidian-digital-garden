@@ -3,7 +3,7 @@
 ---
 
 # Tags
-[[Ultimate AWS Certified SysOps Administrator Associate 2024 \|Ultimate AWS Certified SysOps Administrator Associate 2024 ]]
+- [[Ultimate AWS Certified SysOps Administrator Associate 2024 \|Ultimate AWS Certified SysOps Administrator Associate 2024 ]]
 
 ---
 # 단서 질문

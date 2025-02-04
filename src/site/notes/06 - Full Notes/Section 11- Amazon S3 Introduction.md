@@ -14,7 +14,7 @@
 - S3의 사용 예시 3가지만
     1. archive: 기록 백업용
     2. Media Hosting: 미디어 파일을 호스팅해준다.
-    3. Hybrid Cloud Storage: 온프로미스와 같이 사용하는 저장 공간
+    3. Hybrid Cloud Storage: 온프로미스와 같이 사용하는 저장 공간. Storage Gateway를 통해서
 - 버켓 네이밍룰은 어떻게 되나요?
 	- 영어 소문자나 숫자로 시작하며 대문자는 사용이 불가능하다. 또한 하이픈(’-’)을 사용할 수 있다.
 	- 또한, AWS 전체에서 이름이 유일(unique)해야 한다.
@@ -181,14 +181,14 @@
 ## S3 Storage Classes - Infrequent Access
 ### S3 Storage Classes - Infrequent Access (IA)
 - GP보다 덜 접근되는 데이터들. 그러나, 필요할 땐 빠른 접근이 필요할 때
-- S3 Standard보다 저렴함
+- S3 Standard보다 저렴함. 그러나, retrieval 비용이 듬.
 - **Amazon S3 Standard-Infrequent Access (S3 Standard-IA)**
 	- 99.9% Availability
 	- 사용 예: 재난 복구, 백업
 - **Amazon S3 One Zone-Infrequent Access (S3 One Zone-IA)**
 	- 단일 AZ에서 높은 지속성(99.99999999%)을 가진다. AZ가 파괴되면 데이터 유실
 	- 99.5% Availability
-	- 사용 예: 두번 째 백업 카피
+	- 사용 예: 두 번째 백업 카피
 ---
 ## Amazon S3 Glacier Storage Classes
 ### Amazon S3 Glacier Storage
@@ -259,5 +259,4 @@
 # 참고 자료
 
 https://aws.amazon.com/ko/blogs/korea/amazon-s3-multi-part-dowload/
-
 https://docs.aws.amazon.com/AmazonS3/latest/userguide/mpuoverview.html

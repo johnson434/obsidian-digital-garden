@@ -3,7 +3,7 @@
 ---
 
 # Tags
-[[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]]
+- [[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]]
 # 핵심 요약
 - EBS를 사용하는 인스턴스는 Tier를 바꿀 수 있다.
 - EBS는 Elastic Block Storage로 EC2 데이터를 저장하는데 사용
@@ -14,7 +14,7 @@
 - EC2의 CLI로 shutdown을 입력하면 EC2가 종료되지만, terminate로 설정도 가능하다.
 - Terminate Protection을 걸더라도 EC2의 CLI로 shutdown을 걸면 terminate 된다. Terminate Protection은 AWS 대시보드나 API, SDK를 위한 보호 기능이지 OS 내부엔 아무 영향을 끼치지 않는다. (단, shutdown이 terminate로 설정된 상태)
 - EC2 트러블 슈팅
-	- InstanceLimitExceec는 **Region에** vCPU 개수 초과 시 발생
+	- InstanceLimitExceed는 **Region에** vCPU 개수 초과 시 발생
 	- InsufficientInstanceCapacity는 **AZ에** AWS에 사용 가능한 자원이 없음
 	- Instance Terminates Immediately 
 		- EBS 용량 초과, OS Image 오염, EBS 접근을 위한 KMS 접근 권한 없음
@@ -24,11 +24,11 @@
 
 # 단서 질문
 - EC2에서 키페어는 뭐냐?
-    ssh를 통해 접근하기 위해 사용되는 키를 의미한다. 키페어를 만들면 .pem 파일을 다운로드 받는데 이 pem 파일을 키로 이용해서 ssh로 EC2에 접속이 가능하다.
+	    ssh를 통해 접근하기 위해 사용되는 키를 의미한다. 키페어를 만들면 .pem 파일을 다운로드 받는데 이 pem 파일을 키로 이용해서 ssh로 EC2에 접속이 가능하다.
 - VPC란 뭐냐?
-    Virtual Private Cloud로 AWS 클라우드 리소스들이 속한 네트워크다. 
+	    Virtual Private Cloud로 AWS 클라우드 리소스들이 속한 네트워크다. 
 - AZ란?
-    Availability Zone. 특정 리전(e.g. ap-northeast-2)엔 여러 개의 데이터 센터들(e.g. ap-northeast-2a, ap-northeast-2b...)이 존재하는데 이러한 데이터센터들을 AZ라고 합니다. 동일한 AZ 내의 리소스끼리 내부에서 통신하면 비용이 들지 않지만 서로 다른 AZ에 속한 리소스끼리 통신엔 비용이 듭니다.
+	    Availability Zone. 특정 리전(e.g. ap-northeast-2)엔 여러 개의 데이터 센터들(e.g. ap-northeast-2a, ap-northeast-2b...)이 존재하는데 이러한 데이터센터들을 AZ라고 합니다. 동일한 AZ 내의 리소스끼리 내부에서 통신하면 비용이 들지 않지만 서로 다른 AZ에 속한 리소스끼리 통신엔 비용이 듭니다.
 # 핵심 필기
 ## EC2 인스턴스 타입 바꾸기
 ![Pasted image 20241219121052.png](/img/user/image/Pasted%20image%2020241219121052.png)
@@ -92,8 +92,7 @@ EC2 인스턴스의 배치 전략을 정한다.
 ### Spread
 ![image 1 13.png](/img/user/image/image%201%2013.png)
 - **장점**
-	- 여러 AZ에 걸쳐 존재할 수 있다. (Can span across multiple AZs in the
-same region)
+	- 여러 AZ에 걸쳐 존재할 수 있다.
 	- 하드웨어 자체의 문제가 생겨서 인스턴스들이 동시에 실패하는 리스크를 줄인다.
 	- EC2 인스턴스들은 서로 다른 물리적 하드웨어에 속한다.
 - **단점**
@@ -116,7 +115,6 @@ same region)
 	- HDFS
 	- HBase
 	- 카산드라
-
 ---
 ## EC2 Shutdown Behavior
 ### Shutdown Behavior
@@ -135,23 +133,21 @@ same region)
 ---
 ## **Troubleshooting EC2 Launch Issues**
 **시험에 백퍼 나오는 파트**
-==**# InstanceLimitExceeded**==
+==**InstanceLimitExceeded**==
 - **원인**: vCPU 사용량 한계에 도달함을 의미한다.
 - **발생 예시**: (A,C,D,H,I,M,R,T,Z) 인스턴스 타입들을 돌려서 총합 vCPU가 64를 넘을 때(64는 default 값) vCPUs 제한은 region별로 있다.
 - **해결 방법**
 	- 방법1. 인스턴스를 다른 리전에서 실행
 	- 방법2. vCPUs 제한 증가 시키기 -> Service Quotas 들어가서 설정 가능
 - 중요 포인트: vCPU 기반 제한은 On-Demand랑 Spot 인스턴스에만 적용된다.
-
-==**# InsufficientInstanceCapacity**==
+==**InsufficientInstanceCapacity**==
 - **원인**: EC2 인스턴스를 실행하려는 AZ의 AWS의 가용 자원이 모자람. 
 - **해결 방법**
 	- 방법1. 기다렸다가 재요청
 	- 방법2. 리퀘스트 취소 후에 요청하기. 여러 개 요청 시에 한 번에 리퀘스트로 요청해라
 	- 방법3. 너무 급하면 **다른 인스턴스 타입 요청**하기. 나중에 리사이즈하면 됨
 	- 방법4. 다른 AZ에서 EC2 실행
-	
-==**# Instance Terminates Immediately**==
+==**Instance Terminates Immediately**==
 - 가능한 원인들:
 	- EBS volume 제한 초과
 	- EBS 스냅샷이 오염됨
@@ -159,7 +155,6 @@ same region)
 	- 인스턴스 실행을 위한 AMI에 필수 파일이 없어서
 - 정확한 원인을 찾는 방법:
 	- AWS EC2 콘솔 - 인스턴스 - Description 탭
-
 ---
 ## EC2 SSH troubleshooting
 - SSH 이슈 주요 발생 원인들			
@@ -174,7 +169,6 @@ same region)
 
 > [!important]  
 > NACL(Network Access Control List)은 VPC(가상 사설 클라우드) 내에서 서브넷(subnet) 수준에서 인바운드(inbound)와 아웃바운드(outbound) 트래픽을 제어하기 위한 보안 계층입니다. NACL을 사용하면 허용(allow)하거나 거부(deny)할 트래픽을 규칙으로 정의할 수 있으며, 이러한 규칙은 서브넷에 연결된 모든 인스턴스에 적용됩니다.  
-			
 ### SSH vs EC2 Instance Connect			
 ![Pasted image 20241219135739.png](/img/user/image/Pasted%20image%2020241219135739.png)
 - SSH
@@ -183,7 +177,7 @@ same region)
 	- EC2 Instance Connect는 AWS 대시보드에서 제공하는 접근 방법으로 60초동안 사용 가능한 일회용 공개 키를 통해 접속한다.
 	- 단, EC2 Instance Connect도 SSH 연결과 마찬가지로 SG에서 허용하지 않은 IP나 포트를 통해 접속하면 접속이 불가능합니다.
 ---
-## **EC2 Instance Purchasing Options**
+## EC2 Instance Purchasing Options
 ### On-Demand
 - 사용한만큼 낸다.
 	- 리눅스 or 윈도우: 초당 청구
@@ -205,7 +199,7 @@ same region)
 	- 66% 할인(일반 RI보다 비쌈)
 > [!important]  
 > 테넌시란? EC2 인스턴스가 물리적으로 저장되는 방식  
-### **Saving Plans**
+### Saving Plans
 - 캐시포인트처럼 사용 포인트(commitment)를 사서 서비스를 쓰는 느낌
 - 장기간 사용을 예상하고 할인(최대 72%)
 - 제일 높은 할인 계약부터 적용된다.
@@ -221,7 +215,7 @@ same region)
 	- Instance Size(e.g m5.xlarge → m5.x2Large)
 	- OS (eg. Linux, Windows)
 	- Tenancy (Host, Dedicated, Default)
-- 다음은 예시로 실제 비용과 차이가 있을 수 있음.
+- 다음은 내가 직접한 예시라 실제 비용과 차이가 있을 수 있음.
 	- ![Pasted image 20250123121735.png](/img/user/image/Pasted%20image%2020250123121735.png)
 	- 공통 조건
 		- `r5.4xlarge` 4개 = 4
@@ -237,7 +231,7 @@ same region)
 		- r5.4xlarge 시간당 0.7달러
 		- 2 / 0.7 = 2.857142857... === 2.9 => `r5.4xlarge` 4개 유닛 중에서 2.9개 할인만 받고 나머지 1.1은 온디맨드
 		- 나머지 `m5.24xlarge`, `Fargate`, `Lambda`는 SP 요금을 모두 다 썼으므로 온디맨드로 요금 부여
-- 공식 예시: https://docs.aws.amazon.com/savingsplans/latest/userguide/sp-applying.html
+
 ### **Spot Instances**
 - 온디멘드에 비해 최대 90프로 저렴하다.
 - 설정한 max price이 현재 spot 가격보다 낮으면 인스턴스를 뺏긴다. (설정한 예산보다 EC2의 요구 가격이 비싸므로 빌리지 못하는 것)
@@ -278,3 +272,5 @@ same region)
 **인스턴스**: 물리적 서버에서 돌아가는 OS의 개수. 멀티 테넌시 구조면 하나의 서버에 여러 인스턴스가 올라간다. ==일반적으로== 우리가 사용하는 인스턴스는 **다른 사용자들과 동일한 물리적 서버를 공유**한다.
 
 ---
+
+[^1]:  https://docs.aws.amazon.com/savingsplans/latest/userguide/sp-applying.html

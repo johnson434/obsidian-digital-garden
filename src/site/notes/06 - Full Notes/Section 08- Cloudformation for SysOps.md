@@ -30,23 +30,23 @@
 	    - Parameters는 동적으로 입력을 받을 수 있다.
 	    - Mappings는 템플릿의 값을 사용
 - Parameters와 Mapping의 사용 방법
-    CloudFormation yaml 파일 내에 Mappings로 작성 후에 FindInMap Intrinsic Function인 FindInMap 함수로 조회
+	    CloudFormation yaml 파일 내에 Mappings로 작성 후에 FindInMap Intrinsic Function인 FindInMap 함수로 조회
 - CloudFormation에서 Create Stack 실패 시에 AWS에서 취하는 조치는?
-    Create Stack 생성 실패 시에 기본 대처는 리소스 전체 삭제다. 만약에, 트러블 슈팅을 원할하게 진행하려면 리소스 전체 삭제 설정을 Disable하자. 혹은 단순하게 로그를 통해 해결해도 된다.
+	    Create Stack 생성 실패 시에 기본 대처는 리소스 전체 삭제다. 만약에, 트러블 슈팅을 원할하게 진행하려면 리소스 전체 삭제 설정을 Disable하자. 혹은 단순하게 로그를 통해 해결해도 된다.
 - CloudFormation에서 롤백 실패 시에 대응 조치는?
-    리소스에 대해 조치를 취한 후에 CloudFormation에서 ContinueUpdateRollback API를 호출한다.
+	    리소스에 대해 조치를 취한 후에 CloudFormation에서 ContinueUpdateRollback API를 호출한다.
 - CloudFormation에서 Outputs이란?
-    다른 스택에서 만들어진 값을 사용하고 싶을 때, 해당 스택에서 값을 Export하고 Output을 통해 사용할 수 있다.
+	    다른 스택에서 만들어진 값을 사용하고 싶을 때, 해당 스택에서 값을 Export하고 Output을 통해 사용할 수 있다.
 - CloudFormation Capabilities
-    CloudFormation에서 특정 리소스(IAM)를 생성하거나 Macro를 통해 동적으로 리소스를 구축하기 위해선 Capabilities를 부여합니다.
-    **InsufficientCapabilitiesException**은 Capability가 없는 상태에서 템플릿에서 해당 권한이 필요한 리소스를 생성하면 발생하는 예외입니다.
+	    CloudFormation에서 특정 리소스(IAM)를 생성하거나 Macro를 통해 동적으로 리소스를 구축하기 위해선 Capabilities를 부여합니다.
+	    **InsufficientCapabilitiesException**은 Capability가 없는 상태에서 템플릿에서 해당 권한이 필요한 리소스를 생성하면 발생하는 예외입니다.
 - Deletion Policy란?
-    클라우드 포메이션에서 리소스가 제거되었거나 Template 파일이 삭제됐을 때, 리소스들을 어떻게 처리할지 정하는 정책. (ex: Delete, Retain, Snapshot)
+	    클라우드 포메이션에서 리소스가 제거되었거나 Template 파일이 삭제됐을 때, 리소스들을 어떻게 처리할지 정하는 정책. (ex: Delete, Retain, Snapshot)
 - Stack Policy란?
-    스택에 포함된 리소스가 업데이트 될 때 생략할지 업데이트할지 정하는 정책
+	    스택에 포함된 리소스가 업데이트 될 때 생략할지 업데이트할지 정하는 정책
 - cfn-init과 cfn-signal이란?
-    cfn-init: CloudFormation init으로 EC2에서 CloudFormation으로부터 받는 스크립트다.
-    cfn-signal: cfn-init 결과를 CloudFormation에 전송하는 것
+	    cfn-init: CloudFormation init으로 EC2에서 CloudFormation으로부터 받는 스크립트다.
+	    cfn-signal: cfn-init 결과를 CloudFormation에 전송하는 것
 ---
 # 핵심 요약
 - CloudFormation은 IaC로 코드를 통해 리소스를 생성 및 관리할 수 있다.

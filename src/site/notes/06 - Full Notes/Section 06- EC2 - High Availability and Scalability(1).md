@@ -3,21 +3,19 @@
 ---
 
 # Tags
-[[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]]
-
+- [[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]]
 ---
 # 단서 질문
 - High Availability란?
-    높은 가용성으로 특정 리전이나 AZ에 장애가 발생하더라도 서비스의 문제가 없어야 한다. 이중화
+	    높은 가용성으로 특정 리전이나 AZ에 장애가 발생하더라도 서비스의 문제가 없어야 한다. 이중화
 - High Availability를 위한 설정 방법은?
-    Multi AZ에서 인스턴스를 실행한다. ELB는 Cross-Zone 설정을 통해 균등하게 트래픽을 분배한다.
+	    Multi AZ에서 인스턴스를 실행한다. ELB는 Cross-Zone 설정을 통해 균등하게 트래픽을 분배한다.
 - High Scalability란?
-    높은 확장성으로 트래픽이 몰리거나 줄어들었을 때 유동적으로 자원의 확장 혹은 축소가 일어난다.
+	    높은 확장성으로 트래픽이 몰리거나 줄어들었을 때 유동적으로 자원의 확장 혹은 축소가 일어난다.
 - High Scalability를 위한 설정 방법은?
-    ASG 그룹을 통해서 EC2 스케일링을 지원한다.
+	    ASG 그룹을 통해서 EC2 스케일링을 지원한다.
 - ALB의 스코프는?
-    AZ별로 존재한다. Cross Zone 정책을 통해 서로 다른 AZ의 인스턴스로 패킷 포워딩이 가능하다.
-
+	    AZ별로 존재한다. Cross Zone 정책을 통해 서로 다른 AZ의 인스턴스로 패킷 포워딩이 가능하다.
 ---
 # 핵심 요약
 **AI 요약**
@@ -28,9 +26,9 @@
 - **ALB 규칙과 가중치:** 리스너 규칙을 통해 요청을 라우팅하고, 타겟 그룹 가중치로 트래픽 분배를 조절할 수 있습니다.
 **직접 요약**
 - **높은 가용성이란? (High Availability)**
-	특정 지역이나 서비스에 문제가 발생하더라도 서비스를 지원할 수 있음을 말한다. 높은 가용성을 위해서 AZ 내의 문제가 생겼을 때, 다른 AZ에서 실행되는 서비스가 failover를 통해 지원된다.
+		특정 지역이나 서비스에 문제가 발생하더라도 서비스를 지원할 수 있음을 말한다. 높은 가용성을 위해서 AZ 내의 문제가 생겼을 때, 다른 AZ에서 실행되는 서비스가 failover를 통해 지원된다.
 - **높은 확장성이란? (High Scalability)**
-	수평적 확장성과 수직적 확장성으로 나뉘며 서비스의 요구치를 따라가지 못했을 때, 기계의 스펙을 높이거나 서비스의 개수를 늘려서 서비스의 제공을 원할하게 한다.
+		수평적 확장성과 수직적 확장성으로 나뉘며 서비스의 요구치를 따라가지 못했을 때, 기계의 스펙을 높이거나 서비스의 개수를 늘려서 서비스의 제공을 원할하게 한다.
 - **ELB 종류**
 	1. CLB (Classic Load Balancer): 
 		- 구버전 로드밸런서로 현재는 사용을 권장하지 않는다.

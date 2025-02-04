@@ -2,7 +2,9 @@
 {"dg-publish":true,"permalink":"/06-full-notes/section-03-ec-2-for-sys-ops-2/","noteIcon":""}
 ---
 
-[[06 - Full Notes/Section 03- EC2 for SysOps(1)\|Section 03- EC2 for SysOps(1)]] 
+# Tags
+- [[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]]
+
 # 단서 질문
 - Spot Instance란?
     - max cost 설정을 통해서 해당 지역의 인스턴스 대여 비용이 max cost보다 낮으면 해당 AZ에서 인스턴스를 생성한다.

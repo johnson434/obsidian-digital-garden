@@ -8,9 +8,9 @@
 ---
 # 단서 질문
 - Elastic Beanstalk란?
-    개발자 관점에서 AWS 어플리케이션 배포의 자동화를 진행
+	    개발자 관점에서 AWS 어플리케이션 배포의 자동화를 진행
 - Elastic Beanstalk 비용은?
-    사용한 리소스에 대한 금액만 낼뿐. Beanstalk 자체는 무료.
+	    사용한 리소스에 대한 금액만 낼뿐. Beanstalk 자체는 무료.
 ---
 # 핵심 요약
 - Elastic Beanstalk은 AWS에서 애플리케이션 배포를 자동화하는 개발자 친화적인 서비스입니다.

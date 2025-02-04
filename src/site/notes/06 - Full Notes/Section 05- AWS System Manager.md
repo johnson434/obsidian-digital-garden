@@ -6,19 +6,19 @@
 [[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]] 
 # 단서 질문
 - System Manager란?
-    온프로미스와 EC2의 시스템 설정을 하거나 시스템의 상태를 확인하는데 사용된다.
+	    온프로미스와 EC2의 시스템 설정을 하거나 시스템의 상태를 확인하는데 사용된다.
 - System Manager에 인스턴스를 등록하려면?
-    인스턴스에 IAM Role(SSM Agent)을 부여
+	    인스턴스에 IAM Role(SSM Agent)을 부여
 - Document란?
-    특정 커맨드라인이나 명령어를 실행하기 위해 설정해둔 모음집
+	    특정 커맨드라인이나 명령어를 실행하기 위해 설정해둔 모음집
 - Automation이란?
-    Document를 자동화해서 실행하는 기능
+	    Document를 자동화해서 실행하는 기능
 - StateManager란?
-    인스턴스가 정의된 State에서 벗어나지 않도록 유지하는 역할
+	    인스턴스가 정의된 State에서 벗어나지 않도록 유지하는 역할
 - PatchManager란?
-    소프트웨어 업데이트 등 Patch를 관리해주는 역할
+	    소프트웨어 업데이트 등 Patch를 관리해주는 역할
 - Inventory
-    소프트웨어 버전 등 인스턴스의 메타 데이터 등을 저장하는 공간
+	    소프트웨어 버전 등 인스턴스의 메타 데이터 등을 저장하는 공간
 # 핵심 요약
 - SSM(AWS System Manager)는 온프로미스와 인스턴스들의 시스템 설정을 관리하는 역할
 - 온프로미스 환경에서도 SSM Agent를 설정하면 시스템 설정 관리가 가능
@@ -177,16 +177,14 @@
 	- 사용자의 의해 정의 가능한 custom baseline
 	- OS, 패치 허용, 패치 거부(Operating System, allowed patches, rejected patches, …)
 	- 특정 저장소를 명시해서 해당 저장소로부터 업데이트 받을 수 있다.(Ability to specify custom and alternative patch repositories)
-	![[image 10 6.png\|image 10 6.png]]
-	
 ### SSM - Maintenance Windows
 - 특정 시각에 작업이 필요한 것들은 Maintenance Windows를 통해서 예약이 가능하다.
 - 예: OS 업데이트, 드라이버 업데이트, 소프트웨어 설치
 - Maintenance Window contains  
-	• Schedule
-	• Duration  
-	• Set of registered instances  
-	• Set of registered tasks  
+	- Schedule
+	- Duration  
+	- Set of registered instances  
+	- Set of registered tasks  
 ### SSM Session Manager
 ![image 11 6.png](/img/user/image/image%2011%206.png)
 - Allows you to start a secure shell on your EC2 and on- premises servers
@@ -200,15 +198,12 @@
 - Session log data can be sent to S3 or CloudWatch Logs
 - CloudTrail can intercept StartSession events
 ### SSM - Session Manager(2)
-
 ![image 12 6.png](/img/user/image/image%2012%206.png)
-	
 ### IAM Permissions
 - Control which users/groups can access Session Manager and which instances  
 - Use tags to restrict access to only specific EC2 instances  
 - Access SSM + write to S3 + write to CloudWatch  
 - Optionally, you can restrict commands a user can run in a session  
-		
 ### SSH vs Session Manager
-![[image 13 6.png\|image 13 6.png]]
+
 
