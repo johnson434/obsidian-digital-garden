@@ -37,9 +37,11 @@ removed {
 
 ## Custom Condition Checks
 ### precondition and postcondition
-- 리소스에만 사용 가능하다.
+- `resource`와 `data`에 사용 가능하다.
 - 이름 그대로 `pre-condition`은 리소스가 만들어지기 전에 평가한다.
 - 이름 그대로 `post-condition`도 리소스가 만들어진 후에 평가한다.
+- 조건과 error_message를 통해서 유지 보수가 편리해진다.
+	- 조건문이나 에러 메시지를 보고 다른 개발자가 해당 데이터의 용도를 파악할 수 있음.
 ``` hcl
 resource "aws_instance" "example" {
   instance_type = "t2.micro"

@@ -25,21 +25,19 @@
 - Linux Network Stack엔 ethernet, routes, iptable, conntrack이 있다.
 - ethernet은 Mac Address를 통해 통신하는 진입점이다.
 - routes는 패킷의 경로를 지정한다.
-- iptable은 들어오는 트래픽에 대해 ruleset을 지정하여 Allow/Deny가 가능하다.
-- conntrack은 커널 내에 들어오는 트래픽을 모두 추적한다.
+- iptable/nftables은 들어오는 트래픽에 대해 ruleset을 지정하여 Allow/Deny가 가능하다.
+- conntrack은 커널 내에서 들어오는 트래픽을 모두 추적한다.
 - Pod 내엔 `pause container`가 존재하며 이를 기반 인프라 컨테이너라 부른다.
-- `pause container`는 네트워크 네임스페이스를 가지기만 할 뿐 다른 역할은 하지 않는다.
-- `pause container`의 네임스페이스를 통해서 Pod가 통신이 가능한 것이다.
-- Pod와 Host OS는 Docker의 브릿지 네트워킹처럼 veth를 통해 연결된다.
-- veth를 통해 Mac 주소 기반 통신을 하기 위해 `cbr`을 사용한다.
+- `pause container`는 네트워크 네임스페이스를 가지며, Pod 내 다른 컨테이너가 이를 공유한다.
+- Pod와 Host OS는 veth를 통해 연결되며, CNI 플러그인이 네트워크 브리지를 관리한다.
 - 서비스는 노드와 Pod의 IP 주소 변경이 잦으므로 만들어진 고정 엔드포인트다.
-- 서비스는 프로세스가 아니라 논리적인 엔티티
-- 서비스가 생성되면 `kube-proxy`가 해당하는 규칙에 맞춰서 Pod의 IP를 nftable에 등록한다.
-- Pod가 죽거나 재생성되어 IP가 변경된다면 `kube-proxy`는 이에 맞춰서 nftable을 변경한다.
+- 서비스는 프로세스가 아니라 논리적인 엔티티다.
+- 서비스가 생성되면 `kube-proxy`가 해당하는 규칙에 맞춰서 Pod의 IP를 iptables/nftables에 등록한다.
+- Pod가 죽거나 재생성되어 IP가 변경되면 `kube-proxy`는 이를 반영하여 iptables/nftables을 업데이트한다.
 - 때문에 서비스와 매핑되는 Pod로 계속 트래픽이 라우팅되는 것이다.
-- 워커 노드엔 `kube-proxy`와 CNI 설정 등이 되어 있다.
-- `kube-proxy`는 프로세스로 통신과 네트워크 설정 변경을 감지하며 이를 적용한다.
-- `kubelet`을 통해서 Pod를 생성하기 전에 CNI 설정을 확인하여 Pod의 CIDR을 체크한다.
+- 워커 노드엔 `kube-proxy`와 CNI 플러그인이 설정되어 있다.
+- `kube-proxy`는 네트워크 설정을 감지하고 이를 반영한다.
+- `kubelet`은 CNI 플러그인을 호출하여 Pod의 네트워크 설정을 요청하고, CNI 플러그인이 CIDR을 할당한다.
 ---
 # 핵심 필기
 ## Kubernetes is just Linux!!
