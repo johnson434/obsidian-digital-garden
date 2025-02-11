@@ -38,7 +38,7 @@
 ---
 # 핵심 필기
 ## CloudFront Deep Dive
-![Pasted image 20250211110237.png](/img/user/Pasted%20image%2020250211110237.png)
+![Pasted image 20250211110237.png](/img/user/image/Pasted%20image%2020250211110237.png)
 - CloudFront는 먼저 Edge 단에 캐싱 서버를 둔다.
 - 클라이언트가 요청을 한다면 Edge Location에서 확인한다.
 - Edge Location에 요청한 데이터가 없다면 Regional Edge를 확인한다.
