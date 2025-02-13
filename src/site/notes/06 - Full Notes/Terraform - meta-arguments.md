@@ -56,7 +56,7 @@ resource "aws_instance" "server" {
 }
 ```
 ## for_each
-- `map` or `set`을 값으로 받는다.
+- `map` or `set(string)`을 값으로 받는다.
 ``` hcl
 resource "aws_instance" "test" {
   for_each = toset(["abc","efg"])

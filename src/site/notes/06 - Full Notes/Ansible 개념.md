@@ -7,7 +7,6 @@
 # 핵심 필기
 
 ## Ansible 구성 요소 3가지
-
 ### 1. Control Node
 - Ansible이 설치되어 있는 노드로 Control Node에서 Ansible을 실행하여 Managed Node를 프로비저닝한다. ssh를 통해서 Managed Node와 연결된다.
 ### 2. Inventory
@@ -33,7 +32,6 @@ controller-node@localhost: ~$ ssh-keygen # 키 생성
 
 controller-node@localhost: ~$ ssh -i ./id_rsa 유저명@호스트
 ```
-			
 ## Ansible의 특징
 ### Agent-less 아키텍처
 - 추가적인 소프트웨어를 설치를 피함으로써 유지를 위한 오버헤드를 줄일 수 있다.
@@ -82,13 +80,13 @@ controller-node@localhost: ~$ ssh -i ./id_rsa 유저명@호스트
 			network:
 			webservers:
 	```
-## Inventory 변수 사용
+## Inventory에 변수 사용
 ```YAML
 webservers:
 	hosts:
 		webserver01:
 			ansible_host: 192.0.2.140
-			http_port: 80
+			http_port: 80 # 해당 노드에선 해당 변수가 등록된다.
 		webserver02:
 			ansible_host: 192.0.2.150
 			http_port: 443
@@ -102,8 +100,8 @@ webservers:
 			ansible_host: 192.0.2.150
 			http_port: 443
 	vars:
-		ansible_user: my_server_user
+		ansible_user: my_server_user # hosts에 속한 모든 노드가 변수를 공유한다.
 ```
 
-> [!info] Ansible Documentation — Ansible Community Documentation  
-> Welcome to Ansible community documentation!  
+# 참고 자료
+https://docs.ansible.com/ansible/latest/getting_started/introduction.html
