@@ -3,8 +3,7 @@
 ---
 
 # Tags
-- [[03 - Tags/Linux Concept\|Linux Concept]]
-- [[03 - Tags/Linux Kernel\|Linux Kernel]]
+- [[03 - Tags/Linux\|Linux]]
 # 단서 질문
 - Micro Kernel의 이점은?
 	- 서버의 문제가 생기더라도 커널의 크게 영향을 끼치지 않는다.
@@ -43,7 +42,7 @@
 - 모든 서버와 기능을 커널에 넣은 모놀리식과 다르게 모듈화가 된 상태
 ![Pasted image 20250213113711.png](/img/user/image/Pasted%20image%2020250213113711.png)
 - 마이크로 커널은 단순하게 서로 다른 프로세스 간에 메시지 전송을 위한 코드정도만 작성되어 있다.
-- 마이크로 커널 아키텍처의 장점은 하나에 서비스에 문제가 생겨도 다른 서비스에 영향을 끼치지 않는다.
+- 마이크로 커널 아키르지 텍처의 장점은 하나에 서비스에 문제가 생겨도 다른 서비스에 영향을 끼치지 않는다.
 	- 실제론 해당 서비스에 의존하는 서비스에  영향을 끼칠 수 있다. (ex. 파일 서버에 문제 => 파일 디스크립터를 사용하는 모든 어플리케이션에 영향)
 - 모놀리식 아키텍처에선 커널 내부에서 서버와 통신을 하면 됐지만, 마이크로 커널 아키텍처에선 커널과 서비스들이 서로 다른 프로세스에서 동작하므로 IPC 통신을 한다. 따라서, 오버헤드가 발생하여 퍼포먼스가 모놀리식에 비해 떨어진다. 예를 들어, 파일 서버를 이용하기 위해선 모놀리식 아키텍처에선 커널 내부에서 호출로 처리가 가능하지만 마이크로 커널 아키텍처에선 파일 서버가 프로세스로 유저 영역에서 돌고 있으므로 해당 프로세스와 IPC를 통해세 네트워킹이 필요하다.
 > [!커널의 서비스]
@@ -54,8 +53,9 @@
 - Support of loadable kernel modules (at runtime)
 - Organize the kernel in logical, independent subsystems
 - Strict interfaces but with low performance overhead: macros, inline functions, function pointers
-하이브리드 커널이란 것도 있는데 모놀리식 커널과 크게 다르지 않음. 모놀리식 서비스들이 모놀리식 아키텍처처럼 커널 모드에서 동작하는데 이게 모놀리식 아키텍처랑 뭐가 다르냐?
-리눅스 토발즈는 "하이브리드 커널"을 마케팅 용어라고 생각함.
+## Hybrid kernel?
+윈도우에선 하이브리드 커널을 사용하는데 모놀리식 커널과 크게 다르지 않다. "모놀리식 서비스들이 모놀리식 아키텍처처럼 커널 모드에서 동작하는데 이게 모놀리식 아키텍처랑 뭐가 다르냐?"라고 생각하는 사람들이 있다.
+리눅스 토발즈는 "하이브리드 커널"을 마케팅 용어라고 생각한다.
 # References
 https://linux-kernel-labs.github.io/refs/heads/master/so2/lec1-intro.html#typical-operating-system-architecture
 https://brewagebear.github.io/linux-kernel-internal-2/

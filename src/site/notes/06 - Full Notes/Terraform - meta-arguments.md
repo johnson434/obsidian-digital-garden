@@ -87,3 +87,6 @@ variable "sensitive_value" {
 	sensitive = true 
 }
 ```
+
+# 참고자료
+https://developer.hashicorp.com/terraform/language/meta-arguments/depends_on

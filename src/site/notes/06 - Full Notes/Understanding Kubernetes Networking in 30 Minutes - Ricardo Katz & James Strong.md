@@ -51,6 +51,8 @@
 		- 트래픽을 라우팅하는 역할
 	3. iptable
 		- iptable rule에 따라 트래픽을 Allow/Deny할 수 있다.
+		- NAT, 방화벽, 라우팅 등 다양한 설정이 가능하다.
+		- iptable은 ipv4, ipv6, ARP를 따로 설정하지만, nftable은 통합해서 설정이 가능하다.[^1]
 	4. conntrack
 		- 커널 내에 통신을 추적하는 역할
 ## Pods
@@ -143,3 +145,4 @@ https://www.youtube.com/watch?v=Mj04QOqAaJ8
 [Kubernetes Networking Deep Dive](https://medium.com/google-cloud/understanding-kubernetes-networking-pods-7117dd28727)
 
 
+[^1]: nftable이 더 최근에 나온 툴이다. 프로토콜을 각자 설정할 필요 없으며, iptable에 비해서 확장성이 좋다.

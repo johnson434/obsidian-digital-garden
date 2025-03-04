@@ -6,12 +6,9 @@
 # 단서 질문
 - NAT란?
     NAT(Network Address Translation)은 IP를 변환해서 패킷을 재전송하기 위해서 사용되는 프로토콜입니다.
-    
     흔히 사용자의 개인 IP를 공인 IP로 변환하거나 쿠버네티스 내에선 파드로 재전송하기 위해서 NAT 프로토콜을 사용합니다.
-    
 - DNS란?
     도메인과 일치하는 IP 주소를 반환하는 서비스
-    
 - [www.naver.com](http://www.naver.com) 질의 시 진행 과정
     1. DNS 캐시를 확인하고 naver.com과 일치하는 도메인이 있는지 도메인 서버에 질의
     2. 도메인 서버는 Root 도메인 서버에 질의
@@ -34,7 +31,7 @@ NAT(Network Address Translation)란? 3계층인 라우팅 계층에서도 쓰이
 
 사용 예로는 사설 IP를 공인 IP로 번역하거나 공인 IP를 사설 IP로 번역하기. 또는 4계층에서 로드밸런서를 통해 요청했던 IP가 아닌 적합한 노드의 IP로 리다이렉팅하기 위해서 IP를 변환하는 등의 사용 예시가 있습니다.
 
-스위치를 통해 노드의 부여되는 주소들은 NAPT(Network Adress Port Translation)으로 부여 받으며 이를 현업에선 PAT(Port Address Translation)이라고 부릅니다.
+스위치를 통해 노드의 부여되는 주소들은 NAPT(Network Adress Port Translation)으로 부여 받으며 이를 현업에선 PAT(Port Address Translation)이라고 부릅니다.[^1]
 
 ### **7.1.1 NAT/PAT 용도와 필요성**
 - **1. IP 주소 고갈의 문제**

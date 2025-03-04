@@ -93,7 +93,8 @@ variable "var1" {
 2. description
 3. sensitive (Optional)
 
-의존성 # Local values
+의존성 
+# Local values
 - 변수화해서 여러 번 사용하려고 쓴다.
 - locals 파일 따로 만들어서 써도됨.
 - 만약, locals 변수가 특정 파일에 종속되면 해당 파일에 맨 위에 쓰셈.
