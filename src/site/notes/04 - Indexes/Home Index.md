@@ -2,7 +2,7 @@
 {"dg-publish":true,"permalink":"/04-indexes/home-index/","tags":["gardenEntry"],"noteIcon":""}
 ---
 
-## 열심히 쓴 글들
+## 개발하면서 든 생각 정리
 - [[06 - Full Notes/Terraform - Test 코드 directory 배치\|Terraform - Test 코드 directory 배치]]
 - [[06 - Full Notes/Understanding Kubernetes Networking in 30 Minutes - Ricardo Katz & James Strong\|Understanding Kubernetes Networking in 30 Minutes - Ricardo Katz & James Strong]]
 ## 컨퍼런스 참여 후기
