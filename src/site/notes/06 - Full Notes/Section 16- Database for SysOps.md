@@ -326,10 +326,10 @@
 - 조회 관련 부하를 줄여준다.
 - AWS에서 OS 유지 보수를 진행한다.
 ## ElastiCache - Redis vs Memcached
-![Pasted image 20250306103848.png](/img/user/Pasted%20image%2020250306103848.png)
+![Pasted image 20250306103848.png](/img/user/image/Pasted%20image%2020250306103848.png)
 ## ElasticCache Redis Cluster Modes
 ### ElastiCache Replication: Cluster Mode Disabled
-![Pasted image 20250306104352.png](/img/user/Pasted%20image%2020250306104352.png)
+![Pasted image 20250306104352.png](/img/user/image/Pasted%20image%2020250306104352.png)
 - primary node 1개에 최대 5개 replicas
 - 비동기 복제
 - primary node는 read/write에 사용
@@ -339,14 +339,14 @@
 - MultiAZ가 기본적으로 활성화된 상태다.
 - 확장과 조회 성능에 도움이 된다.
 ### Redis Scaling - Cluster Mode Disabled
-![Pasted image 20250306104527.png](/img/user/Pasted%20image%2020250306104527.png)
+![Pasted image 20250306104527.png](/img/user/image/Pasted%20image%2020250306104527.png)
 - 수평적
 	- read replicas 개수 조절
 - 수직적
 	- 노드 타입 변경
 	- 제자리에서 업데이트하지 않고, 해당 노드 그룹의 복제본을 만든 후에 DNS 업데이트를 진행한다.
 ### ElastiCache Replication: Cluster Mode Enabled
-![Pasted image 20250306104606.png](/img/user/Pasted%20image%2020250306104606.png)
+![Pasted image 20250306104606.png](/img/user/image/Pasted%20image%2020250306104606.png)
 - 샤드를 통해 데이터가 파티셔닝(쓰기 확장성이 좋다.)
 - 각 샤드는 primary 노드와 최대 5개에 replicas를 가진다.
 - Multi-AZ 가능
@@ -360,9 +360,9 @@
 - 샤드나 replicas 조절
 - Target Tracking이나 Scheduled 정책 둘 다 지원
 - Cluster Mode가 활성화된 Redis만 가능하다.
-![Pasted image 20250306105357.png](/img/user/Pasted%20image%2020250306105357.png)
+![Pasted image 20250306105357.png](/img/user/image/Pasted%20image%2020250306105357.png)
 ## ElastiCache - Redis Connection Endpoints
-![Pasted image 20250306111828.png](/img/user/Pasted%20image%2020250306111828.png)
+![Pasted image 20250306111828.png](/img/user/image/Pasted%20image%2020250306111828.png)
 - Standalone Node
 	- 단 하나의 엔드포인트에 read/write 모두 작업
 - Cluster Mode Disabled Cluster
@@ -379,7 +379,7 @@
 - 수직적:
 	- 노드 타입 변경
 	- 오토스케일링 방식과 동일하게 복제본을 만들고 DNS를 업데이트한다.
-![Pasted image 20250306112138.png](/img/user/Pasted%20image%2020250306112138.png)
+![Pasted image 20250306112138.png](/img/user/image/Pasted%20image%2020250306112138.png)
 ### Redis Scaling - Cluster Mode Enalbed
 - 클러스터 모드가 활성화된 상태에서 레디스 클러스터를 스케일링하는 방법은 두 가지가 있다.
 	- Online Scaling: 스케일링 과정에도 요청을 처리한다. (다운타임이 없다, 대신 스케일링 과정에서 성능이 준다)

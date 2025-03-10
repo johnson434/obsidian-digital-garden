@@ -20,7 +20,7 @@
 - FSx란?
     - File System X의 줄임말로 다양한 파일 시스템을 제공하는 서비스다. S3의 Bucket을 마운트할 수도 있다. Window File System부터 Lustre 파일시스템까지 제공한다.
 - Window FS vs Lustre
-    - Lustre가 더 HPC에 적합하다.(병렬 액세스를 제공하므로) 또한, Lustre는 S3에 직접 접근이 가능하다.    
+    - Lustre가 더 HPC에 적합하다.(병렬 액세스를 제공하므로) 또한, Lustre는 S3에 직접 접근이 가능하다.
 - EFS vs FSx
     - **EFS**는 **리눅스 기반** 애플리케이션을 위한 **NFS** 파일 시스템을 제공하며, **자동 확장** 및 **다중 AZ** 지원으로 **대규모 병렬 액세스**에 유용합니다.
     - **AWS FSx**는 **특정 파일 시스템 유형**(예: Windows용 NTFS, 고성능 컴퓨팅용 Lustre)을 지원하며, **특정 워크로드에 최적화된 파일 시스템**을 제공합니다.
