@@ -17,7 +17,7 @@
 - Ansible이 실행할 작업을 정의한 모듈 하나를 참조합니다. (최소 작업 단위)
 **Module**
 - `managed node`에서 실행될 이진 코드입니다.
-- Ansible의 각 모듈은 FQCN을 사용하여 컬렉션에 모여있습니다.
+- Ansible의 각 모듈은 FQDN을 사용하여 컬렉션에 모여있습니다.
 ``` bash
 # playbook.yaml
 - name: My first play

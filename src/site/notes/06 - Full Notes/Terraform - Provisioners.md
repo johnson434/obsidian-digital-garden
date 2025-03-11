@@ -9,7 +9,6 @@
 > **Note:** Provisioners should only be used as a last resort. For most common situations there are better alternatives. For more information, see the sections above.
 # Provisioners
 - 로컬이나 리모트에서 특정 액션을 실행하도록 설정 가능.
-- Ansible 느낌도 있다.
 - Provisioner를 쓰지 말고 다른 해결 방법이 있다면 그걸 쓰라고 적어놨음[^1]
 - 예를 들어, 설정 관리(configuration management)를 provisioner로 할 수 있지만 `packer`[^2] 사용을 더 권장한다.
 - 지금 딱히 크게 공부가 필요한 파트는 아닌 느낌이라 넘어간다. (Ansible이나 Packer가 더 나아보인다. Ansible은 멱등성도 제공하므로)

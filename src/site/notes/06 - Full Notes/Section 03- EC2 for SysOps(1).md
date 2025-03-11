@@ -5,30 +5,225 @@
 # Tags
 - [[03 - Tags/Ultimate AWS Certified SysOps Administrator Associate 2024\|Ultimate AWS Certified SysOps Administrator Associate 2024]]
 # 핵심 요약
-- EBS를 사용하는 인스턴스는 Tier를 바꿀 수 있다.
-- EBS는 Elastic Block Storage로 EC2 데이터를 저장하는데 사용
-- EC2 Placement Groups는 EC2 배치 전략을 정하는 그룹
-	- Cluster: 단일 AZ
-	- Spread: 하드웨어 분산 AZ별로 최대 7개 인스턴스 생성 가능, 서로 다른 AZ 사용 가능
-	- Partitioning: 서로 다른 파티션은 서로 다른 서버에 존재하며 AZ 하나에 그룹을 7개밖에 사용 못한다.
-- EC2의 CLI로 shutdown을 입력하면 EC2가 종료되지만, terminate로 설정도 가능하다.
-- Terminate Protection을 걸더라도 EC2의 CLI로 shutdown을 걸면 terminate 된다. Terminate Protection은 AWS 대시보드나 API, SDK를 위한 보호 기능이지 OS 내부엔 아무 영향을 끼치지 않는다. (단, shutdown이 terminate로 설정된 상태)
-- EC2 트러블 슈팅
-	- InstanceLimitExceed는 **Region에** vCPU 개수 초과 시 발생
-	- InsufficientInstanceCapacity는 **AZ에** AWS에 사용 가능한 자원이 없음
-	- Instance Terminates Immediately 
-		- EBS 용량 초과, OS Image 오염, EBS 접근을 위한 KMS 접근 권한 없음
-- SSH 접근은 유저명과 IP를 제대로 명시해라
-- AWS에서 제공하는 EC2 인스턴스 커넥션은 일회용 복호화 키를 사용해서 접속하는 방식이다.
-- Dedicated Host는 서버 자체를 물리적으로 빌리고 Dedicated Instance는 EC2를 실행하면 해당 하드웨어를 다른 고객이 사용하지 못하게 막는 것이다.
+### 🚀 **EC2 핵심 요약**  
+---
+## **1. EC2 인스턴스 타입 변경**  
+- **조건**: EC2가 EBS 볼륨을 사용해야 변경 가능  
+- **방법**:  
+  1. 인스턴스 중지  
+  2. 인스턴스 타입 변경  
+  3. 인스턴스 시작  
+---
+## **2. EC2 네트워킹 (Enhanced Networking)**  
+### **(1) EC2 Enhanced Networking (SR-IOV)**  
+- 높은 대역폭, 낮은 지연 시간  
+- **옵션:**  
+  - **ENA (Elastic Network Adapter)** → 최대 100Gbps  
+  - **Intel 82599 VF** → 최대 10Gbps (레거시)  
+- **적용 가능**: 최신 EC2 인스턴스에서 사용 가능 (T3 이상)  
+### **(2) Elastic Fabric Adapter (EFA)**  
+- HPC(고성능 컴퓨팅) 및 MPI(Message Passing Interface) 최적화  
+- 리눅스 전용, 커널 우회하여 속도 증가  
+---
+## **3. EC2 Placement Groups (인스턴스 배치 전략)**  
+- **Cluster**: 단일 AZ, 저지연, 높은 처리량 (빅데이터 처리)  
+- **Spread**: 여러 AZ 분산, 높은 가용성 (AZ별 최대 7개 인스턴스)  
+- **Partitioning**: 독립적인 랙 배치, 대규모 분산 처리 시스템 (Kafka, HDFS, Cassandra)  
+---
+## **4. EC2 종료(Shutdown) 및 보호(Termination Protection)**  
+- **Shutdown Behavior**:  
+  - 기본값 `stop` (종료)  
+  - 설정 변경 시 `terminate` (완전 삭제) 가능  
+- **Termination Protection**:  
+  - AWS Console/CLI에서 실수로 삭제 방지  
+  - OS에서 `shutdown` 실행 시 보호 불가능  
+---
+## **5. EC2 문제 해결 (Troubleshooting)**  
+### **(1) EC2 인스턴스 실행 문제**  
+✅ **InstanceLimitExceeded**: vCPU 한도 초과 → **vCPU 제한 증가 요청**  
+✅ **InsufficientInstanceCapacity**: AZ 내 자원 부족 → **다른 AZ 시도 / 인스턴스 타입 변경**  
+✅ **Instance Terminates Immediately**:  
+- EBS 볼륨 제한 초과  
+- AMI 손상  
+- KMS 키 접근 문제  
+### **(2) EC2 SSH 연결 문제**  
+✅ **접근 불가 원인:**  
+- SSH 키 파일 권한 (`chmod 400`)  
+- 사용자명 (`ubuntu`, `ec2-user` 확인)  
+- 보안 그룹 / NACL 설정 확인  
+- 공인 IP 부재  
+✅ **SSH vs EC2 Instance Connect**  
+- SSH: 인바운드 포트 필요  
+- EC2 Instance Connect: AWS 콘솔에서 웹 기반 SSH 지원 (일회용 공개 키)  
+---
+## **6. EC2 구매 옵션**  
+### **(1) On-Demand**  
+- 사용한 만큼 결제 (가장 비쌈, 장기 약정 없음)  
+- **짧은 작업, 지속적 실행 작업**에 적합  
+
+### **(2) Reserved Instances (RI)**  
+- 1년 또는 3년 약정 → **최대 72% 할인**  
+- **Convertible RI**: 인스턴스 타입 변경 가능 (최대 66% 할인)  
+
+### **(3) Saving Plans**  
+- 일정 사용량 약정 후 다양한 EC2 서비스 사용 가능  
+- 유연한 사용 가능 (`m5.xlarge → m5.2xlarge`, OS 변경 가능)  
+
+### **(4) Spot Instances**  
+- **최대 90% 할인**, 가격 변동에 따라 종료 가능  
+- **배치 작업, 데이터 분석, 분산 처리 작업**에 적합  
+
+### **(5) Dedicated Hosts vs. Dedicated Instances**  
+| 옵션 | 설명 | 주요 특징 |
+|------|------|----------|
+| **Dedicated Host** | 물리적 서버 전용 | 라이선스 요구 사항 충족, 가장 비쌈 |
+| **Dedicated Instance** | 특정 물리적 서버에서만 실행 | 배치 제어 불가, 상대적으로 저렴 |
+
+---
+## **7. EC2 인스턴스 용량 예약 (Capacity Reservations)**  
+- 특정 AZ에 **On-Demand 인스턴스** 사전 예약  
+- 사용 여부와 관계없이 비용 청구됨  
+- Reserved Instances & Saving Plans과 결합 가능  
+---
+### ✅ **핵심 요약**  
+1. **EC2 인스턴스 타입 변경** → EBS 필요, 중지 후 변경 가능  
+2. **Enhanced Networking** → ENA 사용 시 성능 증가  
+3. **Placement Groups** → Cluster (빠른 네트워크), Spread (고가용성), Partitioning (대규모 분산)  
+4. **Shutdown/Terminate Protection** → AWS CLI/SDK 보호, OS 내 shutdown 보호 불가  
+5. **Troubleshooting** → SSH 연결 문제(키/SG 확인), 인스턴스 실행 문제(vCPU, AZ 자원 부족)  
+6. **구매 옵션** → On-Demand (유연), RI/Saving Plans (할인), Spot (저가, 비중요 작업), Dedicated (전용 서버)  
+7. **Capacity Reservations** → 특정 AZ에 온디맨드 인스턴스 예약, 비용은 계속 청구  
+
+🚀 **AWS EC2를 효율적으로 운영하려면 인스턴스 배치 전략, 네트워크 성능, 구매 옵션을 고려해야 합니다!**
 
 # 단서 질문
-- EC2에서 키페어는 뭐냐?
-	    ssh를 통해 접근하기 위해 사용되는 키를 의미한다. 키페어를 만들면 .pem 파일을 다운로드 받는데 이 pem 파일을 키로 이용해서 ssh로 EC2에 접속이 가능하다.
-- VPC란 뭐냐?
-	    Virtual Private Cloud로 AWS 클라우드 리소스들이 속한 네트워크다. 
-- AZ란?
-	    Availability Zone. 특정 리전(e.g. ap-northeast-2)엔 여러 개의 데이터 센터들(e.g. ap-northeast-2a, ap-northeast-2b...)이 존재하는데 이러한 데이터센터들을 AZ라고 합니다. 동일한 AZ 내의 리소스끼리 내부에서 통신하면 비용이 들지 않지만 서로 다른 AZ에 속한 리소스끼리 통신엔 비용이 듭니다.
+### **AWS EC2 모의고사 (10문제)**
+
+---
+
+#### **1. EC2 인스턴스 타입을 변경하려면 어떤 조건이 필요할까요?**
+
+**A.** 인스턴스가 반드시 퍼블릭 IP를 가져야 한다.  
+**B.** 인스턴스가 EBS 볼륨을 사용해야 한다.  
+**C.** 인스턴스가 반드시 동일한 AZ 내에 있어야 한다.  
+**D.** 인스턴스에 Enhanced Networking이 활성화되어 있어야 한다.
+
+✅ **정답:** **B. 인스턴스가 EBS 볼륨을 사용해야 한다.**  
+📌 **해설:** EC2 인스턴스 타입을 변경하려면 EBS 볼륨을 사용해야 하며, 인스턴스를 **중지(Stop)** 한 후 변경할 수 있습니다. 인스턴스 스토어(Instance Store)를 사용하는 경우 타입 변경이 불가능합니다.
+
+---
+
+#### **2. EC2 Enhanced Networking을 활성화하면 어떤 이점이 있을까요?**
+
+**A.** 인스턴스의 RAM 용량이 증가한다.  
+**B.** 네트워크 대역폭이 증가하고 지연 시간이 감소한다.  
+**C.** 모든 EC2 인스턴스에서 자동으로 활성화된다.  
+**D.** 네트워크 패킷이 암호화되어 전송된다.
+
+✅ **정답:** **B. 네트워크 대역폭이 증가하고 지연 시간이 감소한다.**  
+📌 **해설:** Enhanced Networking은 SR-IOV 기술을 활용하여 높은 PPS(Packet Per Second), 낮은 지연 시간(Latency), 높은 대역폭을 제공합니다. **ENA(Elastic Network Adapter)** 를 사용하면 최대 100Gbps까지 지원됩니다.
+
+---
+
+#### **3. EC2 Placement Groups 중에서 높은 가용성이 필요한 경우 가장 적절한 것은?**
+
+**A.** Cluster Placement Group  
+**B.** Spread Placement Group  
+**C.** Partition Placement Group  
+**D.** Reserved Placement Group
+
+✅ **정답:** **B. Spread Placement Group**  
+📌 **해설:** Spread Placement Group은 여러 **AZ** 에 걸쳐 인스턴스를 분산 배치하여 **하드웨어 장애로 인해 여러 인스턴스가 동시에 실패하는 위험을 줄입니다.** 높은 가용성이 필요한 경우 적절한 배치 전략입니다.
+
+---
+
+#### **4. EC2 인스턴스를 종료할 때 발생하는 동작 중, Shutdown Behavior 설정이 'Terminate'인 경우 어떤 일이 발생하나요?**
+
+**A.** 인스턴스가 단순히 중지(Stop)되며, 나중에 다시 시작할 수 있다.  
+**B.** 인스턴스가 영구적으로 삭제되며, 복구할 수 없다.  
+**C.** 인스턴스의 EBS 볼륨이 항상 자동으로 삭제된다.  
+**D.** AWS 콘솔에서는 'Terminate' 설정이 적용되지 않는다.
+
+✅ **정답:** **B. 인스턴스가 영구적으로 삭제되며, 복구할 수 없다.**  
+📌 **해설:** **Shutdown Behavior** 가 `Terminate` 으로 설정되어 있다면, EC2 인스턴스가 종료 명령을 받을 때 **즉시 삭제** 됩니다. 다만, **Termination Protection** 을 활성화하면 AWS Console이나 CLI를 통해 실수로 삭제되는 것을 방지할 수 있습니다.
+
+---
+
+#### **5. EC2 SSH 연결이 되지 않을 때 발생할 수 있는 원인이 아닌 것은?**
+
+**A.** 보안 그룹(Security Group)에서 포트 22가 열려있지 않다.  
+**B.** EC2 인스턴스에 공인(Public) IP가 할당되지 않았다.  
+**C.** 인스턴스에 할당된 IAM Role이 부족하다.  
+**D.** Private Key 파일의 권한이 잘못 설정되었다.
+
+✅ **정답:** **C. 인스턴스에 할당된 IAM Role이 부족하다.**  
+📌 **해설:** IAM Role은 SSH 접속과 관련이 없습니다. SSH 연결이 되지 않는 주요 원인은 **보안 그룹 설정, 공인 IP 부재, 잘못된 Key 파일 권한(400 필요)** 등이 있습니다.
+
+---
+
+#### **6. AWS EC2 구매 옵션 중에서 가장 저렴한 방식은 무엇인가요?**
+
+**A.** On-Demand  
+**B.** Reserved Instances  
+**C.** Spot Instances  
+**D.** Dedicated Hosts
+
+✅ **정답:** **C. Spot Instances**  
+📌 **해설:** Spot Instances는 온디맨드 가격 대비 **최대 90% 저렴**하지만, AWS에서 인스턴스 용량이 부족하면 **즉시 회수** 될 수 있기 때문에 가용성이 보장되지 않습니다. **배치 작업, 데이터 분석, 분산 처리 워크로드** 에 적합합니다.
+
+---
+
+#### **7. AWS에서 특정 물리적 서버를 완전히 점유하려면 어떤 구매 옵션을 사용해야 하나요?**
+
+**A.** Dedicated Hosts  
+**B.** Reserved Instances  
+**C.** Spot Instances  
+**D.** On-Demand
+
+✅ **정답:** **A. Dedicated Hosts**  
+📌 **해설:** Dedicated Hosts는 특정 물리적 서버 전체를 특정 계정에 할당하여 사용할 수 있습니다. **라이선스 요구 사항을 만족해야 하거나, 규제가 많은 환경에서 유용**합니다.
+
+---
+
+#### **8. EC2가 특정 AZ의 용량 부족으로 인해 실행되지 않는 경우, 해결 방법이 아닌 것은?**
+
+**A.** 다른 AZ에서 EC2 인스턴스를 실행한다.  
+**B.** 다른 인스턴스 타입으로 변경하여 실행한다.  
+**C.** vCPU 제한을 늘린다.  
+**D.** 해당 AZ에서 Spot Instance를 요청한다.
+
+✅ **정답:** **C. vCPU 제한을 늘린다.**  
+📌 **해설:** AZ 내 용량 부족은 **vCPU 제한과 무관**합니다. 해결책으로는 **다른 AZ 시도, 다른 인스턴스 타입 사용, Spot Instance 요청** 등이 있습니다.
+
+---
+
+#### **9. EC2 Instance Connect를 사용할 경우 어떤 특징이 있나요?**
+
+**A.** AWS 콘솔에서 SSH Key 없이 EC2에 연결할 수 있다.  
+**B.** EC2의 보안 그룹 설정과 관계없이 접속할 수 있다.  
+**C.** Windows 인스턴스에서도 사용할 수 있다.  
+**D.** 영구적인 SSH 접근이 가능하다.
+
+✅ **정답:** **A. AWS 콘솔에서 SSH Key 없이 EC2에 연결할 수 있다.**  
+📌 **해설:** EC2 Instance Connect는 **AWS 웹 콘솔을 통해 60초 동안 유효한 임시 공개 키를 사용하여 SSH 접속을 지원**합니다. 그러나 보안 그룹 설정이 올바르지 않으면 접속할 수 없습니다.
+
+---
+
+#### **10. AWS Saving Plans의 특징으로 올바르지 않은 것은?**
+
+**A.** 사용량을 약정하면 EC2, Lambda, Fargate에서 할인 받을 수 있다.  
+**B.** 특정 인스턴스 패밀리 및 AWS Region에 적용된다.  
+**C.** 약정 금액을 초과하면 추가 사용량은 On-Demand 요금이 적용된다.  
+**D.** 특정 EC2 인스턴스에만 고정적으로 적용된다.
+
+✅ **정답:** **D. 특정 EC2 인스턴스에만 고정적으로 적용된다.**  
+📌 **해설:** Saving Plans는 특정 EC2 인스턴스가 아니라, **인스턴스 패밀리(예: M5) 및 AWS Region** 에 유연하게 적용됩니다. 사용량을 약정하면 EC2 뿐만 아니라 **Lambda, Fargate** 도 할인됩니다.
+
+---
+
+### **결론 🎯**
+
+이 모의고사를 통해 **EC2 인스턴스 운영, 네트워킹, 배치 전략, 문제 해결, 구매 옵션** 등 중요한 개념을 학습할 수 있습니다. AWS 시험이나 실무에서 유용하게 활용하세요! 🚀
 # 핵심 필기
 ## EC2 인스턴스 타입 바꾸기
 ![Pasted image 20241219121052.png](/img/user/image/Pasted%20image%2020241219121052.png)

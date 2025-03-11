@@ -60,11 +60,6 @@ moved {
 - 만약에, `aws_instance.a`가 존재한다면 이름을 `aws_instance.b`로 변경한다.
 - `plan`의 결과로는 `aws_instance.b`가 새로 만들어진 것처럼 보이지만 실제론 `.tfstate` 파일에서 이름만 변경된다.
 ![Pasted image 20250207114459.png](/img/user/image/Pasted%20image%2020250207114459.png)
-
-
-
-
-
 ---
 ## `moved` 사용 예제
 ### `count`나 `for_each` 블록으로 이전하기

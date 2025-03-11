@@ -4,14 +4,144 @@
 
 # Tags
 - [[03 - Tags/Terraform\|Terraform]]
-- [[06 - Full Notes/Terraform - resource\|Terraform - resource]]
 ---
+# **단서 질문 및 답변**  
+
+### **Q1: Terraform `lifecycle` 블록이란?**  
+✅ **Terraform 리소스의 생성, 업데이트, 삭제 동작을 조정하는 `meta-arguments` 설정 블록**.  
+✅ **리소스 내부에서 `lifecycle` 블록을 추가하여 동작을 제어할 수 있음**.  
+
+---
+
+### **Q2: Terraform `lifecycle` 블록 내부에서 사용 가능한 주요 설정은?**  
+✅ **`create_before_destroy`**: 새 리소스를 먼저 생성 후 기존 리소스를 삭제  
+✅ **`prevent_destroy`**: 리소스 삭제 방지  
+✅ **`ignore_changes`**: 특정 속성 변경 무시  
+✅ **`replace_triggered_by`**: 특정 리소스 변경 시 강제 재생성  
+✅ **`precondition` / `postcondition`**: 리소스 생성 전후의 조건 체크  
+
+---
+
+### **Q3: `create_before_destroy`란?**  
+✅ **Terraform의 기본 동작은 리소스를 수정할 때 기존 리소스를 먼저 삭제한 후 새로 생성**  
+✅ **하지만 `create_before_destroy = true` 설정 시, 새 리소스를 먼저 생성한 후 기존 리소스를 삭제**  
+✅ **적용 예시**  
+```hcl
+resource "aws_instance" "example" {
+  ami           = "ami-123456"
+  instance_type = "t2.micro"
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+```
+✅ **주의사항**  
+- `create_before_destroy = true`이면 **destroy provisioner는 실행되지 않음**.  
+- `Name` 태그가 변경되면 Terraform은 리소스를 새로운 리소스로 간주하여 **즉시 삭제 후 생성**.  
+- `for_each`를 사용하여 **식별자를 명확히 설정하면 제자리 업데이트(in-place update) 가능**.  
+
+---
+
+### **Q4: `prevent_destroy`란?**  
+✅ **리소스 삭제를 방지하는 설정 (`terraform destroy` 명령어도 차단됨)**  
+✅ **비싼 비용이 드는 리소스(DB, 프로덕션 서버 등)에 유용**  
+✅ **적용 예시**  
+```hcl
+resource "aws_instance" "example" {
+  ami           = "ami-123456"
+  instance_type = "t2.micro"
+
+  lifecycle {
+    prevent_destroy = true
+  }
+}
+```
+✅ **주의사항**  
+- 이 설정이 적용된 리소스는 **수정이 불가능한 경우가 있음** (예: EC2 AMI 변경 시 리소스를 삭제하고 다시 생성해야 하는데, `prevent_destroy`로 인해 불가능해짐).  
+
+---
+
+### **Q5: `ignore_changes`란?**  
+✅ **Terraform이 특정 속성의 변경을 무시하도록 설정**  
+✅ **사용 예시**  
+- **AWS EKS 노드 그룹의 `desired_size`를 `Cluster Autoscaler`가 관리하는 경우**  
+```hcl
+resource "aws_eks_node_group" "example" {
+  cluster_name    = aws_eks_cluster.example.name
+  node_group_name = "example"
+  node_role_arn   = aws_iam_role.example.arn
+
+  scaling_config {
+    desired_size = 1
+    min_size     = 1
+    max_size     = 15
+  }
+
+  lifecycle {
+    ignore_changes = [scaling_config[0].desired_size]
+  }
+}
+```
+✅ **주의사항**  
+- `ignore_changes`를 설정하면 Terraform은 해당 속성의 변경을 감지하지 않음.  
+- 외부에서 설정이 변경되더라도 `terraform apply` 시 덮어쓰지 않음.  
+
+---
+
+### **Q6: `replace_triggered_by`란?**  
+✅ **다른 리소스가 변경될 때 특정 리소스를 강제로 재생성**  
+✅ **예제**  
+```hcl
+resource "aws_instance" "example" {
+  ami           = "ami-123456"
+  instance_type = "t2.micro"
+
+  lifecycle {
+    replace_triggered_by = [aws_ami.latest.id]
+  }
+}
+```
+✅ **주의사항**  
+- `variable` 또는 `locals`는 `replace_triggered_by`의 값으로 사용할 수 없음.  
+- 대신 `terraform_data` 리소스를 활용해야 함.  
+
+---
+
+### **Q7: `precondition`과 `postcondition`이란?**  
+✅ **리소스 생성 전(`precondition`), 생성 후(`postcondition`) 특정 조건을 검증**  
+✅ **예제**  
+```hcl
+resource "aws_instance" "example" {
+  instance_type = "t2.micro"
+  ami           = "ami-123456"
+
+  lifecycle {
+    precondition {
+      condition     = data.aws_ami.example.architecture == "x86_64"
+      error_message = "The selected AMI must be for the x86_64 architecture."
+    }
+  }
+}
+```
+✅ **주의사항**  
+- `precondition` 실패 시 리소스 생성 자체가 중단됨.  
+- `postcondition` 실패 시 리소스는 생성되지만 에러가 발생할 수 있음.  
+
+---
+
+# **핵심 요약**  
+- **Terraform `lifecycle` 블록을 활용하면 리소스의 생성/업데이트/삭제 동작을 제어 가능**.  
+- **`create_before_destroy`** → 새 리소스를 먼저 생성한 후 기존 리소스 삭제.  
+- **`prevent_destroy`** → 리소스 삭제 방지 (DB, 프로덕션 서버 등에 유용).  
+- **`ignore_changes`** → 특정 속성 변경을 무시 (예: `desired_size` 등).  
+- **`replace_triggered_by`** → 특정 리소스 변경 시 강제 재생성.  
+- **`precondition` / `postcondition`** → 리소스 생성 전후 조건 검증.  
 # 핵심 필기
 ## Lifecycle이란?
 - `resource` 블록에 같이 사용할 수 있는 중첩 블록으로 내부엔 `meta-arguments`가 들어간다.
 ## Lifecycle 내부에 사용 가능한 블록
 ### `create_before_destroy`
-- 매개 변수를 `boolean`으로 받는다.
 - Terraform은 기본적으로 업데이트 되는 인프라 객체를 제자리에서 업데이트한다.
 - 그러나, 수정 사항이 제자리에서 처리가 불가능한 경우엔 해당 인프라 객체를 삭제하고 새로운 객체를 만든다.
 - `create_before_destroy`은 먼저 업데이트 되는 객체를 만들고 이후에 이전에 만들어진 객체(구버전 인프라)를 삭제한다.
@@ -37,7 +167,8 @@ resource "aws_instance" "test" {
     create_before_destroy = true
   }
 }
-```
+``` 
+
 - 아래처럼 식별자를 `for_each`를 통해 식별자를 지정하면 별개의 리소스로 판단하지 않고 동일한 리소스로 판단하여 제자리 업데이트(in-place update)를 진행한다.
 ``` hcl
 variable "ubuntu_ami_id" {
