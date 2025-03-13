@@ -4,7 +4,7 @@
 
 # Tags
 - [[03 - Tags/Linux\|Linux]]
-- [[03 - Tags/Operating System\|Operating System]]
+- [[Linux Process\|Linux Process]]
 ---
 # 핵심 요약
 - 프로세스는 프로그램이 실행되면 만들어진다. 주소 공간, 세마포어 등 해당 프로그램이 사용할 리소스를 OS 차원에서 추상화한 것이 프로세스다.
@@ -52,7 +52,7 @@ Ngid:   0
 ## 시스템 호출 복사 (The clone system call)
 새로운 프로세스나 스레드는 `clone()`이라는 시스템 호출을 통해서 만들어진다.
 `fork()`랑 `pthread_create()`는 내부적으로 `clone()`을 사용한다.
-`clone()` 시스템호출은 호출자가 부모로부터 자원을 공유받거나 복사하거나 격리할 수 있다.
+`clone()` 시스템 호출은 호출자가 부모로부터 자원을 공유 받거나 복사하거나 격리할 수 있다.
 - CLONE_FILES - shares the file descriptor table with the parent
 - CLONE_VM - shares the address space with the parent
 - CLONE_FS - shares the filesystem information (root directory, current directory) with the parent

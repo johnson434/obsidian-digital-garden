@@ -64,7 +64,7 @@
 ## User and kernel sharing the virtual address space
 ![Pasted image 20250213135016.png](/img/user/image/Pasted%20image%2020250213135016.png)
 가상 주소 공간에서는 프로세스마다 User Space가 개별적으로 존재하고, Kernel Space는 모든 프로세스가 공유한다.
-Kernel space는 모든 프로세스의 가상 주소 공간이 공유하지만 User space는 각 프로세스 별로 존재한다. (당연한 소리 kernel space는 운영체제 커널의 물리 주소와 매핑이 될 건데 여러 개 있을 수가 없음. 여러 개 있다는 건 커널이 여러 개 있다는 뜻. 반면에, 프로세스는 해당 프로그램의 실행을 위한 메모리를 가지니까. 당연히 자신의 User Space를 가져야함.)
+Kernel space는 모든 프로세스의 가상 주소 공간이 공유하지만 User space는 각 프로세스 별로 존재한다. 
 
 ![Pasted image 20250213133854.png](/img/user/image/Pasted%20image%2020250213133854.png)
 위 그림은 32bit 4GB 가상 주소 공간을 가정한 것이다. 전통적으로 3:1의 비율(유저공간:커널공간)로 분할

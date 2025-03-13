@@ -2,7 +2,9 @@
 {"dg-publish":true,"permalink":"/06-full-notes/linux-network-namespace/","noteIcon":""}
 ---
 
-[[03 - Tags/Linux\|Linux]] [[03 - Tags/Network\|03 - Tags/Network]]
+# Tags
+- [[03 - Tags/Linux\|Linux]]
+- [[03 - Tags/Network\|Network]]
 # 핵심 요약
 - 네트워크 네임스페이스는 하나의 호스트에서 격리된 네트워크 공간을 구성
 - 모든 네트워크 네임스페이스는 루트(Root) 네임스페이스에 속한다.

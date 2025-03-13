@@ -2,139 +2,188 @@
 {"dg-publish":true,"permalink":"/06-full-notes/linux-rsyslog-logging/","noteIcon":""}
 ---
 
-[[03 - Tags/Linux\|Linux]]
-# rsyslog 로깅 데몬
-리눅스는 syslogd라는 데몬을 통해 컴퓨터의 이벤트를 저장한다.
-## rsyslog.conf
-rsyslog 로깅 룰을 설정하는 환경 파일
-로깅의 룰은 아래와 같은 형식으로 설정한다.
-**facility**.**priority** **action** : facility 프로그램의 priority 우선도를 가진 메시지를 action에 저장한다.
+# Tags
+- [[Linux logging\|Linux logging]]
+---
+# 단서 질문 및 답변
 
-**facility**
-- **auth, authpriv** : 보안/인증 메시지
-- **cron :** 시간 데몬
-- **daemon :**기타 데몬
-- **kern** : 커널 메시지
-- **lpr** : 프린트 시스템
-- **mail** : 메일 시스템
-- **user** : 일반 사용자 수준 메시지
+### **rsyslog란?**  
+- 리눅스에서 시스템 이벤트 및 애플리케이션 로그를 관리하는 **로깅 데몬**.  
+- 기본적으로 `/var/log/` 디렉터리에 로그를 저장하며, **rsyslog.conf**를 통해 설정 가능.  
 
-**priority** : 메시지의 우선 순위(debug ~ emerg)
-- debug
-- info
-- error
-- alert
-## logrotate를 통한 로그 자동 정리
-밑에 파일은 주마다 로그 파일을 만든다.
-```Shell
-# see "man logrotate" for details
+### **logrotate란?**  
+- 로그 파일의 크기 증가를 방지하고, 일정 기간마다 자동으로 로그를 순환(삭제/압축)하는 관리 도구.  
+- `/etc/logrotate.conf` 및 `/etc/logrotate.d/` 디렉터리에서 설정 가능.  
 
-# global options do not affect preceding include directives
+### **로깅을 비활성화하고 로그를 삭제하는 방법은?**  
+- **rsyslog 서비스 중단**: `systemctl stop rsyslog` 또는 `service rsyslog stop`  
+- **로그 파일 삭제**: `rm -rf /var/log/*`  
+- **파일 완전 삭제(복구 방지)**: `shred -u /var/log/auth.log`  
 
-# rotate log files weekly
-# 로그 순환 단위를 설정
+---
+# 핵심 요약
+- **rsyslog**는 리눅스의 **로깅 시스템**으로, `/var/log/` 디렉터리에 이벤트 및 애플리케이션 로그 저장.  
+- **rsyslog.conf**에서 로깅 규칙(facility, priority, action)을 설정 가능.  
+- **logrotate**를 통해 로그 파일을 일정 주기로 자동 삭제 및 압축 가능.  
+- **shred 명령어**를 사용하여 로그 파일을 복구 불가능하게 삭제 가능.  
+- **rsyslog 서비스를 중지하면 로그 기록이 비활성화되지만, 기존 로그는 수동으로 삭제해야 함**.  
+
+---
+# 핵심 필기
+
+## **1. rsyslog 개요**  
+### **syslog vs rsyslog**  
+- **syslog**: 리눅스의 기본 로깅 시스템.  
+- **rsyslog**: **syslog의 확장 버전**으로, 네트워크 로그 전송, 필터링 및 DB 저장 기능을 추가로 지원.  
+
+### **rsyslog.conf 설정 구조**  
+- `/etc/rsyslog.conf` 파일에서 로깅 규칙을 설정.  
+- 기본 형식:  
+  ```
+  facility.priority action
+  ```
+  - **facility**: 로그를 생성하는 프로그램 또는 서비스.  
+  - **priority**: 로그 메시지의 중요도(긴급 → 일반).  
+  - **action**: 로그를 저장할 경로 또는 전송할 대상.  
+
+### **facility 유형**  
+| Facility  | 설명 |
+|-----------|------|
+| **auth, authpriv** | 인증/보안 관련 로그 |
+| **cron** | 크론 작업 관련 로그 |
+| **daemon** | 시스템 데몬 관련 로그 |
+| **kern** | 커널 로그 |
+| **lpr** | 프린터 시스템 로그 |
+| **mail** | 메일 서비스 로그 |
+| **user** | 일반 사용자 프로세스 로그 |
+
+### **priority 우선순위**  
+| Priority | 설명 |
+|----------|------|
+| **debug** | 디버깅 정보 |
+| **info** | 일반 정보 |
+| **notice** | 중요하지만 경고는 아님 |
+| **warning** | 경고 메시지 |
+| **error** | 오류 발생 |
+| **critical** | 시스템 심각한 문제 |
+| **alert** | 즉시 조치 필요 |
+| **emerg** | 시스템이 사용할 수 없는 상태 |
+
+---
+
+## **2. logrotate를 통한 로그 자동 정리**  
+- `/etc/logrotate.conf` 또는 `/etc/logrotate.d/`에서 개별 서비스 로그 관리 가능. 
+### **logrotate 설정 예시**
+```shell
+# 로그 파일을 주 단위로 순환
 weekly
 
-# use the adm group by default, since this is the owning group
-# of /var/log/syslog.
-su root adm
+# 로그 파일을 압축하지 않음
+#compress
 
-# keep 4 weeks worth of backlogs
-# 로그를 위한 주기 여기선 4주가 된다.
+# 4주 동안 보관 후 삭제
 rotate 4
 
-# create new (empty) log files after rotating old ones
+# 새로운 로그 파일 자동 생성
 create
 
-# use date as a suffix of the rotated file
-\#dateext
+# 로그 순환 시 날짜를 파일명에 포함
+#dateext
 
-# uncomment this if you want your log files compressed
-\#compress
-
-# packages drop log rotation information into this directory
+# 특정 서비스의 로그 관리
 include /etc/logrotate.d
-
-# system-specific logs may also be configured here.
 ```
 
-## 로그 비활성화 및 침임 흔적 제거하기
+---
 
-리눅스 시스템을 취한 후에 침입했던 흔적을 삭제하기 위해 사용되는 방**법**
+## **3. 로그 비활성화 및 삭제 방법**  
+### **rsyslog 서비스 중지**
+```shell
+# rsyslog 중지
+systemctl stop rsyslog
+service rsyslog stop
 
-1. **흔적 삭제**
-    1. 내가 사용한 로그만 삭제하기 : 시간이 비어서 의심을 살 수 있다.
-    2. 파일을 삭제 : 포렌식으로 복구 가능. 삭제된 파일은 파일 시스템이 덮어씌우기 전까지는 존재한다.
-    3. 파쇄(shred) : 파일을 삭제하고 여러 번 덮어쓴다. 
-        ```Shell
-        shred --help
-        -s [삭제할 크기]: 명시한 파일의 크기만큼만 shred 한다.
-        -n [shred 반복 횟수]
-        -f [권한이 필요하면 해당 권한으로 로그인]
-        -z [shred가 끝날 때, 0비트로 파일을 덮어쓴다]
-        
-        hwang@hwang:~$ cat hello_text.txt 
-        abcdefghijklmnop
-				
-        hwang@hwang:~$ xxd -b hello_text.txt 
-        00000000: 01100001 01100010 01100011 01100100 01100101 01100110  abcdef
-        00000006: 01100111 01101000 01101001 01101010 01101011 01101100  ghijkl
-        0000000c: 01101101 01101110 01101111 01110000 00001010           mnop.
-        
-        hwang@hwang:~$ shred -f -s 5 hello_text.txt 
-        
-        hwang@hwang:~$ xxd -b hello_text.txt
-        00000000: 10111110 00001100 01110001 01000011 01101110 01100110  ..qCnf
-        00000006: 01100111 01101000 01101001 01101010 01101011 01101100  ghijkl
-        0000000c: 01101101 01101110 01101111 01110000 00001010           mnop.
-        
-        hwang@hwang:~$ shred -f -s 5 -z hello_text.txt 
-        hwang@hwang:~$ xxd -b hello_text.txt 
-        00000000: 00000000 00000000 00000000 00000000 00000000 01100110  .....f
-        00000006: 01100111 01101000 01101001 01101010 01101011 01101100  ghijkl
-        0000000c: 01101101 01101110 01101111 01110000 00001010           mnop.
-        
-        hwang@hwang:~$ shred -f -s 16 -z hello_text.txt 
-        hwang@hwang:~$ xxd -b hello_text.txt 
-        00000000: 00000000 00000000 00000000 00000000 00000000 00000000  ......
-        00000006: 00000000 00000000 00000000 00000000 00000000 00000000  ......
-        0000000c: 00000000 00000000 00000000 00000000 00001010           .....
-        ```
-        
-2. 로깅 비활성화
-    1. rsyslog 데몬 중단
-        1. **service [서비스명] start|stop|restart** : 서비스를 조정한다.
-            
-            ```Shell
-            service rsyslog stop
-            # systemctl : 서비스 컨트롤 및 목록 조회하는 명령어
-            systemctl list-units --type=service | grep rsys
-            service status rsyslog.service
-            service rsyslog stop
-            
-            hwang@hwang:~$ systemctl stop rsyslog.service & systemctl stop syslog.socket 
-            [1] 34262
-            hwang@hwang:~$ systemctl status rsyslog.service 
-            ○ rsyslog.service - System Logging Service
-                 Loaded: loaded (/lib/systemd/system/rsyslog.service; enabled; vendor preset: enabled)
-                 Active: inactive (dead) since Thu 2024-03-07 15:27:07 KST; 10s ago
-            TriggeredBy: ○ syslog.socket
-                   Docs: man:rsyslogd(8)
-                         man:rsyslog.conf(5)
-                         https://www.rsyslog.com/doc/
-                Process: 34077 ExecStart=/usr/sbin/rsyslogd -n -iNONE (code=exited, status=0/SUCCESS)
-               Main PID: 34077 (code=exited, status=0/SUCCESS)
-                    CPU: 8mss
-            
-             3월 07 15:25:13 hwang systemd[1]: Starting System Logging Service...
-             3월 07 15:25:13 hwang rsyslogd[34077]: imuxsock: Acquired UNIX socket '/run/systemd/journal/syslog' (fd>
-             3월 07 15:25:13 hwang rsyslogd[34077]: rsyslogd's groupid changed to 111
-             3월 07 15:25:13 hwang systemd[1]: Started System Logging Service.
-             3월 07 15:25:13 hwang rsyslogd[34077]: rsyslogd's userid changed to 104
-             3월 07 15:25:13 hwang rsyslogd[34077]: [origin software="rsyslogd" swVersion="8.2112.0" x-pid="34077" x>
-             3월 07 15:27:07 hwang systemd[1]: Stopping System Logging Service...
-             3월 07 15:27:07 hwang rsyslogd[34077]: [origin software="rsyslogd" swVersion="8.2112.0" x-pid="34077" x>
-             3월 07 15:27:07 hwang systemd[1]: rsyslog.service: Deactivated successfully.
-             3월 07 15:27:07 hwang systemd[1]: Stopped System Logging Service.
-            
-            ```
+# rsyslog 상태 확인
+systemctl status rsyslog
+
+# rsyslog 자동 시작 방지
+systemctl disable rsyslog
+```
+
+---
+
+## **4. 로그 파일 삭제 및 복구 방지**  
+### **일반적인 로그 삭제 방법**
+```shell
+# 특정 로그 파일 삭제
+rm -rf /var/log/auth.log
+
+# 모든 로그 삭제
+rm -rf /var/log/*
+```
+
+### **shred 명령어로 로그 영구 삭제**
+- 단순 삭제는 복구가 가능하므로, **shred를 사용해 데이터를 덮어쓰기 후 삭제**.  
+- **shred 명령어 옵션**
+
+| 옵션   | 설명            |
+| ---- | ------------- |
+| `-s` | 삭제할 크기 지정     |
+| `-n` | 덮어쓰기 횟수 지정    |
+| `-f` | 권한 강제 변경 후 삭제 |
+| `-z` | 마지막에 0으로 덮어쓰기 |
+
+```shell
+# auth.log 파일을 3회 덮어쓴 후 삭제
+shred -n 3 -z /var/log/auth.log
+```
+
+### **shred 사용 예시**
+```shell
+# 파일 내용 확인
+cat hello_text.txt
+
+# 파일 바이너리 확인
+xxd -b hello_text.txt
+
+# shred로 부분 덮어쓰기
+shred -f -s 5 hello_text.txt
+xxd -b hello_text.txt
+
+# 전체 덮어쓰기 후 삭제
+shred -f -s 16 -z hello_text.txt
+xxd -b hello_text.txt
+```
+
+---
+
+## **5. rsyslog 완전 비활성화 (침입 흔적 제거 포함)**
+### **서비스 중단**
+```shell
+systemctl stop rsyslog
+systemctl disable rsyslog
+```
+### **syslog.socket 중지**
+```shell
+systemctl stop syslog.socket
+```
+### **로그 삭제 및 복구 방지**
+```shell
+shred -u /var/log/*.log
+rm -rf /var/log/*
+```
+
+### **rsyslog 서비스 상태 확인**
+```shell
+systemctl list-units --type=service | grep rsys
+```
+
+---
+
+# 참고 자료
+- [rsyslog 공식 문서](https://www.rsyslog.com/doc/)
+- [logrotate 공식 문서](https://linux.die.net/man/8/logrotate)
+- [systemd 서비스 관리](https://www.freedesktop.org/wiki/Software/systemd/)
+
+---
+# 주석

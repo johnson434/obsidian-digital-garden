@@ -2,7 +2,9 @@
 {"dg-publish":true,"permalink":"/06-full-notes/linux-process-managing-nice-renice/","noteIcon":""}
 ---
 
-[[03 - Tags/Linux\|Linux]] [[03 - Tags/Linux CLI\|Linux CLI]]
+# Tags
+- [[Linux command\|Linux command]]
+
 # 프로세스 확인
 ```Bash
 # 현재 사용자가 실행한 프로세스와 현재 터미널에서 실행 중인 프로세스를 출력
