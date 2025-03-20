@@ -37,7 +37,7 @@
 
 ---
 ## Health 이벤트 알림
-![Pasted image 20250313143509.png](/img/user/Pasted%20image%2020250313143509.png)
+![Pasted image 20250313143509.png](/img/user/image/Pasted%20image%2020250313143509.png)
 - **EventBridge를 사용하여 AWS Health 이벤트를 감지하고 반응**
 - 예: EC2 인스턴스 업데이트 예정 알림 이메일 수신
 - 계정 이벤트(내 리소스 관련 이벤트) 및 공용 이벤트(리전 내 서비스 상태) 구분
@@ -46,9 +46,9 @@
 ### Health 대시보드 예제
 
 - **IAM 키 유출 감지 시 자동 삭제**
-![Pasted image 20250313143559.png](/img/user/Pasted%20image%2020250313143559.png)
+![Pasted image 20250313143559.png](/img/user/image/Pasted%20image%2020250313143559.png)
 - **EC2 인스턴스 퇴역 예정 시 자동 재시작**
-![Pasted image 20250313143616.png](/img/user/Pasted%20image%2020250313143616.png)
+![Pasted image 20250313143616.png](/img/user/image/Pasted%20image%2020250313143616.png)
 ---
 
 ## AWS Organizations
@@ -61,13 +61,13 @@
 - API를 통해 계정 생성 자동화 가능
 
 ### 조직 계층 구조 예제
-![Pasted image 20250313150240.png](/img/user/Pasted%20image%2020250313150240.png)
+![Pasted image 20250313150240.png](/img/user/image/Pasted%20image%2020250313150240.png)
 - **Root OU (최상위 조직 단위)**
     - 관리 계정
     - 개발(Dev) OU
     - 운영(Prod) OU
     - HR 및 재무(Finance) OU
-![Pasted image 20250313150509.png](/img/user/Pasted%20image%2020250313150509.png)
+![Pasted image 20250313150509.png](/img/user/image/Pasted%20image%2020250313150509.png)
 ---
 
 ## 조직 단위 (Organizational Units, OU) 예제
@@ -105,11 +105,11 @@
 
 - **aws:PrincipalOrgID 조건 키 활용**하여 AWS Organizations 내 사용자 액세스 제어 가능
 - 예제: 특정 S3 버킷에 대한 액세스를 AWS Organizations 내 특정 계정으로 제한
-![Pasted image 20250313150823.png](/img/user/Pasted%20image%2020250313150823.png)
+![Pasted image 20250313150823.png](/img/user/image/Pasted%20image%2020250313150823.png)
 ---
 
 ## 태그 정책 (Tag Policies)
-![image.UMK922.png](/img/user/image.UMK922.png)
+![image.UMK922.png](/img/user/image/image.UMK922.png)
 - 리소스 태그 일관성을 유지하도록 정책 설정 가능
 - 허용된 태그 키 및 값 정의 가능
 - 비용 할당 태그(AWS Cost Allocation Tags)와 속성 기반 액세스 제어(ABAC) 활용 가능
@@ -118,7 +118,7 @@
 ---
 
 ## AWS Control Tower
-![image.Z21T32.png](/img/user/image.Z21T32.png)
+![image.Z21T32.png](/img/user/image/image.Z21T32.png)
 - 다중 계정 환경을 안전하고 규정을 준수하는 방식으로 설정하는 서비스
 - **주요 기능**
     - 간단한 클릭만으로 환경 설정 자동화
@@ -129,7 +129,7 @@
 ---
 
 ## AWS 서비스 카탈로그 (AWS Service Catalog)
-![image.0IWH32.png](/img/user/image.0IWH32.png)
+![image.0IWH32.png](/img/user/image/image.0IWH32.png)
 - 사전 승인된 제품(가상 머신, 데이터베이스, 스토리지 옵션 등) 목록을 관리 및 배포
 - 조직 내 사용자가 간편하게 인프라를 배포할 수 있도록 지원
 - **공유 옵션**

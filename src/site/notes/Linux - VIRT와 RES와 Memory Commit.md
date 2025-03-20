@@ -23,7 +23,7 @@
 		- 2: 제한적으로 할당한다. swap 영역의 크기를 토대로 계산한다.
 #### 프로세스의 상태
 top의 man 페이지
-![Pasted image 20250313140841.png](/img/user/Pasted%20image%2020250313140841.png)
+![Pasted image 20250313140841.png](/img/user/image/Pasted%20image%2020250313140841.png)
 - D: uninterruptible sleep 상태로, 디스크나 네트워크 I/O를 대기하고 있는 프로세스다. Wait Queue에서 대기하다가 Run Queue로 이동한다.
 - R: 실제로 CPU 자원을 소모하는 중인 프로세스다.
 - S: interruptible sleeping 상태의 프로세스로, D와 달리 시그널을 받으면 처리할 수 있다.

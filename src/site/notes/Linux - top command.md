@@ -6,7 +6,7 @@
 - [[Linux command\|Linux command]]
 - [[Linux Process\|Linux Process]]
 ---
-![Pasted image 20250313113122.png](/img/user/Pasted%20image%2020250313113122.png)
+![Pasted image 20250313113122.png](/img/user/image/Pasted%20image%2020250313113122.png)
 - `up 2:27`: 서버가 구동된 시간으로 현재 2시간 27분
 - `3 users`: 현재 로그인한 유저
 - `load average`: 현 시점 코어에서 실행 중인 프로세스 개수
