@@ -7,6 +7,7 @@
 - [[06 - Full Notes/Understanding Kubernetes Networking in 30 Minutes - Ricardo Katz & James Strong\|Understanding Kubernetes Networking in 30 Minutes - Ricardo Katz & James Strong]]
 ## 컨퍼런스 참여 후기
 - [[06 - Full Notes/AWS KRUG - 마곡 소모임 참여 후기\|AWS KRUG - 마곡 소모임 참여 후기]]
+- [[AWS KRUG - AWS Serverless 서비스 기반 채팅 후기\|AWS KRUG - AWS Serverless 서비스 기반 채팅 후기]]
 ## 일일 계획표
 - [[03 - Tags/2025-01\|2025-01]]
 - [[06 - Full Notes/2025-02\|2025-02]]
