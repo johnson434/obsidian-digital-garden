@@ -3,7 +3,7 @@
 ---
 
 # Tags
-- [[Linux command\|Linux command]]
+- [[03 - Tags/Linux command\|Linux command]]
 
 # 프로세스 확인
 ```Bash

@@ -3,7 +3,7 @@
 ---
 
 # Tags
-- [[Linux logging\|Linux logging]]
+- [[03 - Tags/Linux logging\|Linux logging]]
 ---
 # 단서 질문 및 답변
 

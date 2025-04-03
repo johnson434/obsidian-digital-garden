@@ -4,7 +4,7 @@
 
 # Tags
 - [[03 - Tags/Linux\|Linux]]
-- [[Linux Process\|Linux Process]]
+- [[03 - Tags/Linux Process\|Linux Process]]
 ---
 # 핵심 요약
 - 프로세스는 프로그램이 실행되면 만들어진다. 주소 공간, 세마포어 등 해당 프로그램이 사용할 리소스를 OS 차원에서 추상화한 것이 프로세스다.

@@ -7,7 +7,7 @@
 ---
 # 후기
 ## 현장 사진
-![Pasted image 20250320224153.png](/img/user/Pasted%20image%2020250320224153.png)
+![Pasted image 20250320224153.png](/img/user/image/Pasted%20image%2020250320224153.png)
 
 ## 기억에 남는 내용
 - DynamoDB와 Lambda 서버리스 서비스끼리 조합이 좋다.
@@ -23,7 +23,7 @@
 - 서버리스로 아키텍처를 구성하면 엄\~\~\~청 싸다. 
 
 
-![Pasted image 20250320224253.png](/img/user/Pasted%20image%2020250320224253.png)
+![Pasted image 20250320224253.png](/img/user/image/Pasted%20image%2020250320224253.png)
 
 # 참고 자료
 - [Understanding DynamoDB's HTTP Connection Model And It's Benefits](https://www.linkedin.com/pulse/understanding-dynamodbs-http-connection-model-its-benefits-bitton-wpdle)

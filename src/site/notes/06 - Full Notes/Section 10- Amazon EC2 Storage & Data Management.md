@@ -170,7 +170,7 @@
 ### Fast Snapshot Restore (Fast Snapshot Restore)
 - S3에 저장된 스냅샷들은 입출력 작업을 처음 할 때(각 블록에 처음 접근할 때) latency가 발생합니다. (Block을 S3로부터 Pull해야 하므로)
 - 해결책: 
-	1. dd나 fio 명령어로 init하거나 FSR 옵션을 킨다.
+	1. dd나 fio 명령어로 init
 		- dd와 fio는 볼륨 성능을 측정하는 커맨드로 실행하면 전체 볼륨에 한번씩 접근이 일어난다.
 	2. **FSR 옵션을 활성화**한다.
 - FSR은 생성할 때 초기 생성된 스냅샷으로부터 볼륨을 만들 때 도와줍니다. (no I/O latency)

@@ -15,7 +15,7 @@
 - 캐싱 전략으론 write-through, write-back, write-around가 있다.
 - write-through는 쓰기를 할 때, 캐시와 DB에 데이터를 작성한다.
 - write-back은 쓰기를 할 때, 캐시에만 데이터를 작성하고 주기적으로 캐시를 갱신한다.
-- write-through는 쓰기를 할 때, DB에만 데이터를 작성한다.
+- write-around는 쓰기를 할 때, DB에만 데이터를 작성한다.
 ---
 # 핵심 필기
 ## 캐싱
@@ -52,7 +52,7 @@ save_customer(customer_id, values)
 **장점**
 - write-through는 모든 작업이 두 개의 쓰기(Caching 서버 쓰기 + DB 서버 쓰기)가 들어간다. write-through는 이에 비하면 가볍다.
 **단점**
-- 캐싱 서버와 DB에 데이터가 일치하지 않을 수 있다.
+- 캐시 활용도가 낮음
 #### 3. write-back
 자주 사용되지 않는 방법이다.
 쓰기 작업이 요청되면 Caching 서버에 데이터를 쓰고, DB엔 쓰지 않는다.
@@ -60,7 +60,7 @@ save_customer(customer_id, values)
 **장점**
 - 쓰기 작업이 빈번할 경우에 i/o 병목 현상을 줄일 수 있다. (매 번 디스크에 작성하지 않으니까)
 **단점**
-- Caching 서버에 데이터가 최신이 아닐 수 있다.
+- 캐싱 서버 날아가면 데이터 손실
 ---
 # 참고 자료
 Best practices for Memcached

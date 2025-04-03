@@ -3,7 +3,7 @@
 ---
 
 # Tags
-- [[Linux command\|Linux command]]
+- [[03 - Tags/Linux command\|Linux command]]
 # 검색
 **locate** : 전체 파일 시스템을 살펴보고 해당 단어의 모든 항목을 찾는다.
 - sudo updatedb를 통해 db를 업데이트를 한 후에 검색해야함.

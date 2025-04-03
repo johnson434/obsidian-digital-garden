@@ -22,7 +22,6 @@
 ---
 # 핵심 요약
 #### **1️⃣ Amazon RDS 개요**
-
 - AWS에서 제공하는 **Managed Database 서비스**
 - 지원하는 데이터베이스 엔진: **MariaDB, MySQL, Aurora**
 - **RDS vs EC2에서 직접 DB 운영 비교**
@@ -31,9 +30,7 @@
     - 수직 및 수평 스케일링 가능
     - **Read Replica** 기능을 통해 읽기 부하 분산 가능
     - **EBS 볼륨 사용**
-
 #### **2️⃣ RDS 스토리지 자동 확장(Storage Autoscaling)**
-
 - 모든 RDS 엔진이 **자동 스토리지 확장** 지원
 - Autoscaling 트리거 조건:
     - 남은 공간이 **10% 이하**
@@ -193,6 +190,7 @@
 - 연속적인 작업으로 Maintenance windows 중에 동작한다.
 - Point in time recovery가 가능하다.
 - retain 기간을 설정 가능하다. (0일 ~ 35일)
+
 **Snapshot**
 - 입출력 작업을 통해서 snapshot을 찍는 인스턴스를 멈출 수 있다. (수초 수분)
 - MultiAZ에선 StandBy에서 snapshot을 찍으므로 Master에 영향이 없다.

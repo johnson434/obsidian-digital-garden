@@ -9,7 +9,7 @@
 # 단서 질문
 - IOPS와 Throughput의 차이
     - IOPS는 I/O per second로 입력과 출력. 즉, 쓰기와 읽기에 초당 연산 횟수를 의미한다.
-    - 만약에, IOPS의 값이 1600(64kb)이라면 이 기억장치는 100MB/s로 입출력이 가능하다는 뜻이다.
+    - 만약에, IOPS의 값이 1600(64KB)이라면 이 기억장치는 100MB/s로 입출력이 가능하다는 뜻이다.
     - 처리량(Throughput)은 실제 단위 시간동안 데이터 처리량을 의미한다.
     - 예를 들어 보면 아래와 같다.
 	    1. 클라이언트가 100MB 데이터 요청
@@ -40,14 +40,71 @@
 
 ---
 # 핵심 요약
-- 10TB가 넘는 데이터를 최소 비용으로 이전하고 싶다면 어떻게 해야 할까?
-	- Snow Family 하드웨어를 직접 리소스에 연결해서 데이터를 이전한다.
-- A 회사는 온프로미스와 클라우드를 동시에 운영하는 하이브리드 클라우드 환경이다. 온프로미스에 데이터를 저장하고 S3에 데이터를 백업하기 위한 방법으론 뭐가 있을까?
-	1. 주기적으로 온프로미스에서 S3에 동기화
-	2. Storage Gateway를 통해서 온프로미스 데이터센터와 AWS S3 저장소를 연결
-- Storage Gateway는 언제 사용하나?
-	- DR
-	- 온프로미스 데이터센터의 데이터를 클라우드에 백업
+## ✅ AWS Snow Family – 오프라인 데이터 이전 & 엣지 컴퓨팅
+### 🔹 **Snowball, Snowcone, Snowmobile**
+- **오프라인 데이터 마이그레이션** 장비 (네트워크 느릴 때 유리)
+- 데이터를 **디바이스에 적재 → AWS로 배송 → S3에 업로드**
+- Snowball Edge/Snowcone은 **엣지 컴퓨팅** 가능 (로컬 처리 + 이후 전송)
+- 사용 이유:
+    - 제한된 대역폭
+    - 비용 절감
+    - 안정성 확보
+---
+## ✅ Amazon FSx – AWS에서 파일 시스템 as a service
+### 🔹 **FSx for Windows File Server**
+- **SMB / NFS** 지원, AD 통합 가능
+- **Windows 환경 최적화**
+- 백업은 **S3로 자동**
+- **Multi-AZ 지원**, 고가용성
+### 🔹 **FSx for Lustre**
+- **HPC(고성능 컴퓨팅)**용 병렬 파일 시스템
+- **S3와 연동** 가능 (읽기/쓰기)
+- Scratch vs Persistent 옵션
+    - Scratch: 임시 고성능 처리
+    - Persistent: 장기 스토리지, 복제 가능
+### 🔹 **FSx for NetApp ONTAP**
+- **NFS, SMB, iSCSI** 지원
+- 스냅샷, 압축, 중복 제거, 복제 기능 내장
+- 온프레미스 NAS → AWS 마이그레이션에 적합
+### 🔹 **FSx for OpenZFS**
+- **NFS 기반** ZFS 파일 시스템
+- 스냅샷, 압축, 복제 등 ZFS 기능 지원
+- 기존 ZFS 워크로드를 AWS로 이전할 때 사용
+---
+## ✅ AWS Storage Gateway – 온프레미스 ↔ 클라우드 연계
+### 🔹 **Gateway 유형**
+
+| 유형                   | 설명                                     |
+| -------------------- | -------------------------------------- |
+| **S3 File Gateway**  | 온프레미스에서 S3를 **NFS/SMB**로 연결            |
+| **FSx File Gateway** | FSx 파일 시스템에 로컬에서 빠르게 접근 (캐시 지원)        |
+| **Volume Gateway**   | iSCSI 볼륨으로 연결, S3에 백업 가능               |
+| **Tape Gateway**     | 물리 테이프 대신 가상 테이프(VTL)로 백업 → S3/Glacier |
+### 🔹 공통 기능
+- 로컬에 **게이트웨이 VM 설치** 또는 AWS 하드웨어 사용 가능
+- 자주 접근하는 데이터는 **로컬에 캐시**
+- 인증, 권한, 타임스탬프 등의 **POSIX 메타데이터 유지 (File Gateway)**
+---
+## ✅ 기타 핵심 포인트
+- **S3는 HTTP 기반만 지원** → SFTP 등은 Transfer Family로 처리
+- **OpenZFS는 파일 시스템이지, 프로토콜은 NFS/SMB를 사용해야 함**
+- **CA, Cert, Key의 차이**
+    - `ca.crt`: 상대방 인증서의 유효성 검증
+    - `*.crt`: 자신이 누구인지 증명 (공개키)
+    - `*.key`: 나만 가진 비밀키 (서명)
+
+---
+
+## 📌 요약 정리표
+
+| 서비스                 | 키워드                             |
+| ------------------- | ------------------------------- |
+| **Snow Family**     | 오프라인 마이그레이션, 엣지 컴퓨팅             |
+| **FSx**             | Lustre, Windows, ONTAP, OpenZFS |
+| **Storage Gateway** | 하이브리드 클라우드 연결, 캐시, DR/백업        |
+| **Transfer Family** | SFTP/FTP/FTPS → S3 연동           |
+|**S3**|HTTP 기반 객체 저장소 (프로토콜 직접 지원 없음)|
+
 ---
 # 핵심 필기
 ## AWS Snow Family Overview
