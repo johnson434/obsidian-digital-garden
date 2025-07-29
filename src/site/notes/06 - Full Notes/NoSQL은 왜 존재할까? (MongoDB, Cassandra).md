@@ -2,7 +2,7 @@
 {"dg-publish":true,"permalink":"/06-full-notes/no-sql-mongo-db-cassandra/","noteIcon":""}
 ---
 
-[[03 - Tags/NoSQL\|NoSQL]]
+#NoSQL 
 
 https://www.youtube.com/watch?v=YDR3D2bsv9Y&ab_channel=InterviewPen
 

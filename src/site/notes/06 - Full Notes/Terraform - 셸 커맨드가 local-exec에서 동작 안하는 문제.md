@@ -3,6 +3,7 @@
 ---
 
 ### Tags
+#Terraform 
 - [[03 - Tags/Terraform\|Terraform]]
 ### 문제 상황
 - 터미널에서 동작하는 문법이 테라폼의 `provisioner local-exec`에서 동작 안함.
