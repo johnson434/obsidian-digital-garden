@@ -3,7 +3,6 @@
 ---
 
 # Tags
-- [[03 - Tags/2025-07\|2025-07]]
 - [[03 - Tags/Security\|Security]]
 ---
 # 단서 질문 및 답변
